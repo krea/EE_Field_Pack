@@ -1,0 +1,37 @@
+/* hyperlink 
+----------------------------------------- */
+.hyperlink_ft .rw { padding-bottom:10px; clear:both; position:relative; }
+.hyperlink_ft .fld { position:relative; margin-right:50px; }
+.hyperlink_ft .fld input { width:100%; height:26px; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+ 
+.hyperlink_ft .fld.bold input { /* font-weight:bold; */ }
+.hyperlink_ft .lbl { width:46px; line-height:18px; height:18px; display:block; position:absolute; top:4px; right:4px; text-align:center; font-size:9px; text-transform:uppercase; color:#34424b; background:#dee3e7; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; }
+.hyperlink_ft .stsBlt { float:left; }
+.hyperlink_ft .lnkSts { position:absolute; width:40px; right:0; top:7px; }
+.hyperlink_ft .preview { float:left; margin-left:5px; position:relative; }
+.hyperlink_ft .preview .icon { width:14px; height:13px; display:inline-block; background:url(../images/icn-preview.png) no-repeat top left; }
+.hyperlink_ft .chckRw input { float:left; width:10px; height:10px; padding:0; margin:3px 8px 0 0; }
+.hyperlink_ft .chckRw label { float:left; font-size:13px; font-weight:bold; cursor:pointer; }
+.hyperlink_ft .addPnl { padding-top:8px; }
+.hyperlink_ft .addPnl a { font-size:13px; color:#e01650; border-left:1px solid #d0d7df; display:inline-block; padding:0 5px 0 7px; text-decoration:none; }
+.hyperlink_ft .addPnl a:hover { text-decoration:underline; }
+.hyperlink_ft .addPnl .frst { padding-left:0; border-left:0; }
+.hyperlink_ft .tltpBx { display:none; position:absolute; bottom:30px; right:0; padding:10px; background:#fff; box-shadow:0 0 10px #ccc; border-radius:10px; -moz-border-radius:10px; -webkit-border-radius:10px; }
+.hyperlink_ft .tltpBx span { width:14px; height:14px; display:block; position:absolute; bottom:-14px; right:10px; background:url(../images/preview-arrow.png) no-repeat bottom right; }
+.hyperlink_ft .preview:hover .tltpBx { display:block; }
+
+.hyperlink_ft .fld.bold input.unwrite { color:#b3b8bb !important; }
+/*.hyperlink_ft .fld.bold input.write { color:#000 !important; }*/
+
+
+/* status bullet 
+----------------------------------------- */
+.stsBlt { width:12px; height:12px; display:inline-block; background:url(../images/status.png) top left no-repeat; }
+.stsBlt.stsBltV1 { background-position:top left; }
+.stsBlt.stsBltV1:hover { background-position:-12px 0; }
+.stsBlt.stsBltV2 { background-position:bottom left; }
+.stsBlt.stsBltV2:hover { background-position:-12px -12px; }
+
+/* global
+----------------------------------------- */
+.js_hide { display:none }
