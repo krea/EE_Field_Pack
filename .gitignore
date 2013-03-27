@@ -12,6 +12,7 @@
 !/system/expressionengine/third_party/
 
 /system/expressionengine/third_party/*
+!/system/expressionengine/third_party/content_elements/
 !/system/expressionengine/third_party/embed_video/
 !/system/expressionengine/third_party/files/
 !/system/expressionengine/third_party/hyperlink/
