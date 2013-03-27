@@ -1,0 +1,3 @@
+[submodule "EE_Content_Elements"]
+	path = EE_Content_Elements
+	url = git@github.com:krea/EE_Content_Elements.git
