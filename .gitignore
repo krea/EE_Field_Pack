@@ -12,7 +12,7 @@
 !/system/expressionengine/third_party/
 
 /system/expressionengine/third_party/*
-!/system/expressionengine/third_party/content_elements/
+!/system/expressionengine/third_party/content_elements
 !/system/expressionengine/third_party/embed_video/
 !/system/expressionengine/third_party/files/
 !/system/expressionengine/third_party/hyperlink/
@@ -23,6 +23,7 @@
 !/themes/third_party/
 
 /themes/third_party/*
+!/themes/third_party/content_elements
 !/themes/third_party/embed_video/
 !/themes/third_party/files/
 !/themes/third_party/hyperlink/
