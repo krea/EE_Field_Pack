@@ -23,7 +23,7 @@ Modules and field types for ExpressionEngine.
 <pre>
 	{exp:channel:entries channel="test_channel_1" limit="10"}
 
-		<h1>{title}</h1>
+		&lt;h1&rt;{title}&lt;/h1&rt;
 
 		{!-- Simplified case --}
 		{content_elements}
@@ -31,15 +31,15 @@ Modules and field types for ExpressionEngine.
 			{files}
 				Attachments:
 				{file}
-					<table>
-						<tr><td>Caption</td><td>{caption}</td></tr>
-						<tr><td>Dir</td><td>{dir}</td></tr>
-						<tr><td>Size</td><td>{size}</td></tr>
-						<tr><td>Server path</td><td>{server_path}</td></tr>
-						<tr><td>URL</td><td>{url}</td></tr>
-						<tr><td>Extension</td><td>{extension}</td></tr>
-						<tr><td>Thumb</td><td>{thumb}</td></tr>
-					</table>
+					&lt;table&rt;
+						&lt;tr&rt;&lt;td&rt;Caption&lt;/td&rt;&lt;td&rt;{caption}&lt;/td&rt;&lt;/tr&rt;
+						&lt;tr&rt;&lt;td&rt;Dir&lt;/td&rt;&lt;td&rt;{dir}&lt;/td&rt;&lt;/tr&rt;
+						&lt;tr&rt;&lt;td&rt;Size&lt;/td&rt;&lt;td&rt;{size}&lt;/td&rt;&lt;/tr&rt;
+						&lt;tr&rt;&lt;td&rt;Server path&lt;/td&rt;&lt;td&rt;{server_path}&lt;/td&rt;&lt;/tr&rt;
+						&lt;tr&rt;&lt;td&rt;URL&lt;/td&rt;&lt;td&rt;{url}&lt;/td&rt;&lt;/tr&rt;
+						&lt;tr&rt;&lt;td&rt;Extension&lt;/td&rt;&lt;td&rt;{extension}&lt;/td&rt;&lt;/tr&rt;
+						&lt;tr&rt;&lt;td&rt;Thumb&lt;/td&rt;&lt;td&rt;{thumb}&lt;/td&rt;&lt;/tr&rt;
+					&lt;/table&rt;
 				{/file}
 			{/files}
 
