@@ -16,31 +16,31 @@ Modules and field types for ExpressionEngine.
 
 <h2 id="files">Files - basic usage</h2>
 <pre>
-	{exp:channel:entries channel="test_channel_1" limit="10"}
+{exp:channel:entries channel="test_channel_1" limit="10"}
 
-		&lt;h1&gt;{title}&lt;/h1&gt;
+	&lt;h1&gt;{title}&lt;/h1&gt;
 
-		{!-- Simplified case --}
-		{content_elements}
+	{!-- Simplified case --}
+	{content_elements}
 
-			{files}
-				Attachments:
-				{file}
-					&lt;table&gt;
-						&lt;tr&gt;&lt;td&gt;Caption&lt;/td&gt;&lt;td&gt;{caption}&lt;/td&gt;&lt;/tr&gt;
-						&lt;tr&gt;&lt;td&gt;Dir&lt;/td&gt;&lt;td&gt;{dir}&lt;/td&gt;&lt;/tr&gt;
-						&lt;tr&gt;&lt;td&gt;Size&lt;/td&gt;&lt;td&gt;{size}&lt;/td&gt;&lt;/tr&gt;
-						&lt;tr&gt;&lt;td&gt;Server path&lt;/td&gt;&lt;td&gt;{server_path}&lt;/td&gt;&lt;/tr&gt;
-						&lt;tr&gt;&lt;td&gt;URL&lt;/td&gt;&lt;td&gt;{url}&lt;/td&gt;&lt;/tr&gt;
-						&lt;tr&gt;&lt;td&gt;Extension&lt;/td&gt;&lt;td&gt;{extension}&lt;/td&gt;&lt;/tr&gt;
-						&lt;tr&gt;&lt;td&gt;Thumb&lt;/td&gt;&lt;td&gt;{thumb}&lt;/td&gt;&lt;/tr&gt;
-					&lt;/table&gt;
-				{/file}
-			{/files}
+		{files}
+			Attachments:
+			{file}
+				&lt;table&gt;
+					&lt;tr&gt;&lt;td&gt;Caption&lt;/td&gt;&lt;td&gt;{caption}&lt;/td&gt;&lt;/tr&gt;
+					&lt;tr&gt;&lt;td&gt;Dir&lt;/td&gt;&lt;td&gt;{dir}&lt;/td&gt;&lt;/tr&gt;
+					&lt;tr&gt;&lt;td&gt;Size&lt;/td&gt;&lt;td&gt;{size}&lt;/td&gt;&lt;/tr&gt;
+					&lt;tr&gt;&lt;td&gt;Server path&lt;/td&gt;&lt;td&gt;{server_path}&lt;/td&gt;&lt;/tr&gt;
+					&lt;tr&gt;&lt;td&gt;URL&lt;/td&gt;&lt;td&gt;{url}&lt;/td&gt;&lt;/tr&gt;
+					&lt;tr&gt;&lt;td&gt;Extension&lt;/td&gt;&lt;td&gt;{extension}&lt;/td&gt;&lt;/tr&gt;
+					&lt;tr&gt;&lt;td&gt;Thumb&lt;/td&gt;&lt;td&gt;{thumb}&lt;/td&gt;&lt;/tr&gt;
+				&lt;/table&gt;
+			{/file}
+		{/files}
 
-		{/content_elements}
+	{/content_elements}
 
-	{/exp:channel:entries}
+{/exp:channel:entries}
 </pre>
 
 <h2 id="embed_video">Embed video - basic usage</h2>
