@@ -17,6 +17,38 @@ Modules and field types for ExpressionEngine.
 
 <h2><a href="https://docs.google.com/a/krea.com/document/d/1tn0OCl73jdfGb60ouDJJONkyZ9QcYWbfoDeQrD0JFYA/edit#">TODO list</a> before new release</h2>
 
+<h2 id="files">Files - basic usage</h2>
+
+<code>
+<pre>
+	{exp:channel:entries channel="test_channel_1" limit="10"}
+
+		<h1>{title}</h1>
+
+		{!-- Simplified case --}
+		{content_elements}
+
+			{files}
+				Attachments:
+				{file}
+					<table>
+						<tr><td>Caption</td><td>{caption}</td></tr>
+						<tr><td>Dir</td><td>{dir}</td></tr>
+						<tr><td>Size</td><td>{size}</td></tr>
+						<tr><td>Server path</td><td>{server_path}</td></tr>
+						<tr><td>URL</td><td>{url}</td></tr>
+						<tr><td>Extension</td><td>{extension}</td></tr>
+						<tr><td>Thumb</td><td>{thumb}</td></tr>
+					</table>
+				{/file}
+			{/files}
+
+		{/content_elements}
+
+	{/exp:channel:entries}
+</pre>
+</code>
+
 <h2 id="embed_video">Embed video - basic usage</h2>
 
 Content elements field type usage:
