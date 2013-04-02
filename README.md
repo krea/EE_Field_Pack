@@ -9,13 +9,10 @@ Modules and field types for ExpressionEngine.
 <h2>List of add-on's</h2>
 - Content Elements
 - <a href="#embed-video---basic-usage">Embed video</a>
-- Files
-- Helpdesk
+- <a href="#files">Files</a>
 - Hyperlink
 - Link
 - Promotions
-
-<h2><a href="https://docs.google.com/a/krea.com/document/d/1tn0OCl73jdfGb60ouDJJONkyZ9QcYWbfoDeQrD0JFYA/edit#">TODO list</a> before new release</h2>
 
 <h2 id="files">Files - basic usage</h2>
 
