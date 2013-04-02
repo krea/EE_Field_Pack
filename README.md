@@ -9,14 +9,12 @@ Modules and field types for ExpressionEngine.
 <h2>List of add-on's</h2>
 - Content Elements
 - <a href="#embed-video---basic-usage">Embed video</a>
-- <a href="#files">Files</a>
+- <a href="#files---basic-usage">Files</a>
 - Hyperlink
 - Link
 - Promotions
 
 <h2 id="files">Files - basic usage</h2>
-
-<code>
 <pre>
 	{exp:channel:entries channel="test_channel_1" limit="10"}
 
@@ -44,12 +42,10 @@ Modules and field types for ExpressionEngine.
 
 	{/exp:channel:entries}
 </pre>
-</code>
 
 <h2 id="embed_video">Embed video - basic usage</h2>
 
 Content elements field type usage:
-<code>
 <pre>
 {exp:channel:entries channel="your_channel_name" limit="10"}
 	&lt;h2&gt;{title}&lt;/h2&gt;
@@ -60,7 +56,6 @@ Content elements field type usage:
 	{/content_elements}
 {/exp:channel:entries}
 </pre>
-</code>
 
 Standalone field type usage:
 <code>
