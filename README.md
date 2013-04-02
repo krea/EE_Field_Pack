@@ -23,7 +23,7 @@ Modules and field types for ExpressionEngine.
 <pre>
 	{exp:channel:entries channel="test_channel_1" limit="10"}
 
-		&lt;h1&rt;{title}&lt;/h1&rt;
+		&lt;h1&gt;;{title}&lt;/h1&gt;;
 
 		{!-- Simplified case --}
 		{content_elements}
@@ -31,15 +31,15 @@ Modules and field types for ExpressionEngine.
 			{files}
 				Attachments:
 				{file}
-					&lt;table&rt;
-						&lt;tr&rt;&lt;td&rt;Caption&lt;/td&rt;&lt;td&rt;{caption}&lt;/td&rt;&lt;/tr&rt;
-						&lt;tr&rt;&lt;td&rt;Dir&lt;/td&rt;&lt;td&rt;{dir}&lt;/td&rt;&lt;/tr&rt;
-						&lt;tr&rt;&lt;td&rt;Size&lt;/td&rt;&lt;td&rt;{size}&lt;/td&rt;&lt;/tr&rt;
-						&lt;tr&rt;&lt;td&rt;Server path&lt;/td&rt;&lt;td&rt;{server_path}&lt;/td&rt;&lt;/tr&rt;
-						&lt;tr&rt;&lt;td&rt;URL&lt;/td&rt;&lt;td&rt;{url}&lt;/td&rt;&lt;/tr&rt;
-						&lt;tr&rt;&lt;td&rt;Extension&lt;/td&rt;&lt;td&rt;{extension}&lt;/td&rt;&lt;/tr&rt;
-						&lt;tr&rt;&lt;td&rt;Thumb&lt;/td&rt;&lt;td&rt;{thumb}&lt;/td&rt;&lt;/tr&rt;
-					&lt;/table&rt;
+					&lt;table&gt;;
+						&lt;tr&gt;;&lt;td&gt;;Caption&lt;/td&gt;;&lt;td&gt;;{caption}&lt;/td&gt;;&lt;/tr&gt;;
+						&lt;tr&gt;;&lt;td&gt;;Dir&lt;/td&gt;;&lt;td&gt;;{dir}&lt;/td&gt;;&lt;/tr&gt;;
+						&lt;tr&gt;;&lt;td&gt;;Size&lt;/td&gt;;&lt;td&gt;;{size}&lt;/td&gt;;&lt;/tr&gt;;
+						&lt;tr&gt;;&lt;td&gt;;Server path&lt;/td&gt;;&lt;td&gt;;{server_path}&lt;/td&gt;;&lt;/tr&gt;;
+						&lt;tr&gt;;&lt;td&gt;;URL&lt;/td&gt;;&lt;td&gt;;{url}&lt;/td&gt;;&lt;/tr&gt;;
+						&lt;tr&gt;;&lt;td&gt;;Extension&lt;/td&gt;;&lt;td&gt;;{extension}&lt;/td&gt;;&lt;/tr&gt;;
+						&lt;tr&gt;;&lt;td&gt;;Thumb&lt;/td&gt;;&lt;td&gt;;{thumb}&lt;/td&gt;;&lt;/tr&gt;;
+					&lt;/table&gt;;
 				{/file}
 			{/files}
 
