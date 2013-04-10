@@ -58,7 +58,7 @@ class Files_ft extends EE_Fieldtype {
 	 */
 	function display_field($data, $advanced = FALSE) {
 		//first time... load css & js	
-		$theme_url = rtrim($this->EE->config->item('theme_folder_url'), '/') . '/third_party/files/';
+		$theme_url = rtrim(URL_THIRD_THEMES, '/') . '/third_party/files/';
 
 		//diferent EE version has different trigger for upload files
 		if (version_compare(APP_VER, '2.2.0', '>=')) {
