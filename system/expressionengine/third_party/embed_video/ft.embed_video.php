@@ -56,7 +56,7 @@ class Embed_Video_ft extends EE_Fieldtype {
 		// Load helpers
 		$this->EE->load->helper(array('form'));
 
-		$theme_url = rtrim(URL_THIRD_THEMES, '/') . '/third_party/' . $this->addon_name . '/';
+		$theme_url = rtrim(URL_THIRD_THEMES, '/') . '/' . $this->addon_name . '/';
 
 		//diferent EE version has different trigger for upload files
 		if (version_compare(APP_VER, '2.2.0', '>='))
