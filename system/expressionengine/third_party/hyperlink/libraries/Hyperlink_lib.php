@@ -631,4 +631,29 @@ class Hyperlink_lib {
 		
 		return $queue_list;
 	}
+
+	public function define_theme_url($addon_name = 'content_elements') {
+
+		if (defined('HYPERLINK_THEME_URL'))
+			return HYPERLINK_THEME_URL;
+
+		if (defined('URL_THIRD_THEMES') === TRUE) {
+			$theme_url = URL_THIRD_THEMES;
+		} else {
+			$theme_url = $this->EE->config->item('theme_folder_url') . 'third_party/';
+		}
+
+		// Are we working on SSL?
+		if (isset($_SERVER['HTTP_REFERER']) == TRUE AND strpos($_SERVER['HTTP_REFERER'], 'https://') !== FALSE) {
+			$theme_url = str_replace('http://', 'https://', $theme_url);
+		} elseif (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off') {
+			$theme_url = str_replace('http://', 'https://', $theme_url);
+		}
+
+		$theme_url = str_replace(array('https://', 'http://'), '//', $theme_url);
+
+		define('HYPERLINK_THEME_URL', $theme_url . $addon_name . '/');
+
+		return HYPERLINK_THEME_URL;
+	}
 }

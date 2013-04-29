@@ -60,10 +60,7 @@ class Hyperlink_mcp {
 	 * @return string
 	 */
 	private function _theme_url() {
-		if (!isset($this->cache['theme_url'])) {
-			$theme_folder_url = defined('URL_THIRD_THEMES') ? URL_THIRD_THEMES : $this->EE->config->slash_item('theme_folder_url') . 'third_party/';
-			$this->cache['theme_url'] = ltrim($theme_folder_url, '/') . $this->addon_name . '/';
-		}
+		$this->cache['theme_url'] = $this->EE->{$this->addon_name . '_lib'}->define_theme_url($this->addon_name);
 		return $this->cache['theme_url'];
 	}
 
