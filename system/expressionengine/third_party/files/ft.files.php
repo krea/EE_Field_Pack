@@ -18,6 +18,7 @@ class Files_ft extends EE_Fieldtype {
 		'name' => 'Files',
 		'version' => '1.0'
 	);
+	
 	// Parser Flag (preparse pairs?)
 	public $has_array_data = TRUE;
 	public static $cache = array(
@@ -58,7 +59,7 @@ class Files_ft extends EE_Fieldtype {
 	 */
 	function display_field($data, $advanced = FALSE) {
 		//first time... load css & js	
-		$theme_url = rtrim(URL_THIRD_THEMES, '/') . '/files/';
+		$theme_url = $this->_theme_url();
 
 		//diferent EE version has different trigger for upload files
 		if (version_compare(APP_VER, '2.2.0', '>=')) {
@@ -155,7 +156,7 @@ class Files_ft extends EE_Fieldtype {
 			"files" => $files,
 			"field_name" => ($advanced == 'matrix') ? $this->cell_name : $this->field_name,
 			"files_id" => $files_id,
-			"files_limit" => $this->settings["files_limit"],
+			"files_limit" => !empty($this->settings['files_limit']) ? $this->settings['files_limit'] : NULL,
 		);
 
 		$this->EE->load->add_package_path(dirname(__FILE__));
@@ -688,6 +689,41 @@ class Files_ft extends EE_Fieldtype {
 		} else {
 			return '../../' . $this->addon_name . '/views/' . $name;
 		}
+	}
+
+	/**
+	 * Tool: get theme url
+	 *  
+	 * @access public
+	 */
+	public function _theme_url() {
+		$this->cache['theme_url'] = $this->define_theme_url($this->addon_name);
+		return $this->cache['theme_url'];
+	}
+
+	public function define_theme_url($addon_name = 'content_elements') {
+
+		if (defined('FILES_THEME_URL'))
+			return FILES_THEME_URL;
+
+		if (defined('URL_THIRD_THEMES') === TRUE) {
+			$theme_url = URL_THIRD_THEMES;
+		} else {
+			$theme_url = $this->EE->config->item('theme_folder_url') . 'third_party/';
+		}
+
+		// Are we working on SSL?
+		if (isset($_SERVER['HTTP_REFERER']) == TRUE AND strpos($_SERVER['HTTP_REFERER'], 'https://') !== FALSE) {
+			$theme_url = str_replace('http://', 'https://', $theme_url);
+		} elseif (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off') {
+			$theme_url = str_replace('http://', 'https://', $theme_url);
+		}
+
+		$theme_url = str_replace(array('https://', 'http://'), '//', $theme_url);
+
+		define('FILES_THEME_URL', $theme_url . $addon_name . '/');
+
+		return FILES_THEME_URL;
 	}
 
 }
