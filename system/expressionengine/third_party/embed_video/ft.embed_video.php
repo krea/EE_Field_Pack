@@ -34,8 +34,11 @@ class Embed_Video_ft extends EE_Fieldtype {
 		// Fetch language
 		$this->EE->lang->loadfile($this->addon_name);
 
-		//Field type libraries
+		// Field type libraries
 		$this->_load_libraries();
+		
+		// Load theme url
+		$this->_theme_url();
 	}
 
 	/**
@@ -56,7 +59,7 @@ class Embed_Video_ft extends EE_Fieldtype {
 		// Load helpers
 		$this->EE->load->helper(array('form'));
 
-		$theme_url = rtrim(URL_THIRD_THEMES, '/') . '/' . $this->addon_name . '/';
+		$theme_url = $this->cache['theme_url'];
 
 		//diferent EE version has different trigger for upload files
 		if (version_compare(APP_VER, '2.2.0', '>='))
@@ -567,6 +570,16 @@ class Embed_Video_ft extends EE_Fieldtype {
 	 */
 	public function display_var_tag($data, $params = '', $tagdata = '') {
 		return $this->replace_tag($data, $params, $tagdata);
+	}
+
+	/**
+	 * Tool: get theme url
+	 *  
+	 * @access public
+	 */
+	public function _theme_url() {
+		$this->cache['theme_url'] = $this->EE->{$this->addon_name . '_lib'}->define_theme_url($this->addon_name);
+		return $this->cache['theme_url'];
 	}
 
 }
