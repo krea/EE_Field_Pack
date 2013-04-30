@@ -1,18 +1,18 @@
 <?php if (! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * Gallery Class
+ * Uploader Class
  *
- * @package   Gallery
+ * @package   Uploader
  * @author    Michal Varga
  * @copyright Copyright (c) 2011 KREA SK s.r.o.
  */
  
  
-class Gallery_ft extends EE_Fieldtype { 
+class Uploader_ft extends EE_Fieldtype { 
 
 	var $info = array(
-		'name'		=> 'Gallery',
+		'name'		=> 'Uploader',
 		'version'	=> '1.1.0'
 	);
 
@@ -32,7 +32,7 @@ class Gallery_ft extends EE_Fieldtype {
 		{
 			$theme_folder_url = $this->EE->config->item('theme_folder_url');
 			$theme_folder_url = ltrim($theme_folder_url, '/');
-			$this->cache['theme_url'] = $theme_folder_url.'third_party/gallery/';
+			$this->cache['theme_url'] = $theme_folder_url.'third_party/uploader/';
 		}
 
 		return $this->cache['theme_url'];
@@ -162,18 +162,18 @@ class Gallery_ft extends EE_Fieldtype {
 	 */
 	function validate($data)
 	{
-		global $GALLERY_STORAGE_SAVED;
+		global $uploader_STORAGE_SAVED;
 		
 		//cache v session je vyprazdnena po kazdom requeste
 		
-		if (!isset($GALLERY_STORAGE_SAVED[$_POST['entry_id']][$this->settings['field_id']]))
+		if (!isset($uploader_STORAGE_SAVED[$_POST['entry_id']][$this->settings['field_id']]))
 		{
-			$_SESSION['Ft_gallery']['cache'][$_POST['entry_id']][$this->settings['field_id']] = array();
-			$GALLERY_STORAGE_SAVED[$_POST['entry_id']][$this->settings['field_id']] = 1;
+			$_SESSION['Ft_uploader']['cache'][$_POST['entry_id']][$this->settings['field_id']] = array();
+			$uploader_STORAGE_SAVED[$_POST['entry_id']][$this->settings['field_id']] = 1;
 		}
 
 		
-		$_SESSION['Ft_gallery']['cache'][$_POST['entry_id']][$this->settings['field_id']] = $data;
+		$_SESSION['Ft_uploader']['cache'][$_POST['entry_id']][$this->settings['field_id']] = $data;
 		
 	
 		if ($this->settings['field_required'] == 'y' && !isset($_POST[$this->field_name]))
@@ -202,12 +202,12 @@ class Gallery_ft extends EE_Fieldtype {
 	
 		if (!isset($_POST['title']))
 		{
-			$_SESSION['Ft_gallery']['cache'] = array();
+			$_SESSION['Ft_uploader']['cache'] = array();
 		}		
 	
 		//nacitaj jazyk
 		
-		$this->EE->lang->loadfile('gallery');		
+		$this->EE->lang->loadfile('uploader');		
 		$this->EE->load->library('javascript');		
 			
 		//$this->EE->cp->load_package_js('jquery.ui.draggable.min');	
@@ -231,14 +231,14 @@ class Gallery_ft extends EE_Fieldtype {
 		
 		if ($this->settings["allowed_directories"] == '' OR $this->settings["allowed_directories"] == 'none' OR $this->settings["allowed_directories"] == 'all')
 		{
-			return lang('gallery_error_no_directories_allowed');
+			return lang('uploader_error_no_directories_allowed');
 		}
 		
 		$prefs = $this->get_upload_prefs((int)$this->settings['allowed_directories']);
 		
 		if (!$prefs)
 		{
-			return lang('gallery_error_no_directories_allowed');
+			return lang('uploader_error_no_directories_allowed');
 		}
 
 		//send config to HTML
@@ -247,8 +247,8 @@ class Gallery_ft extends EE_Fieldtype {
 			"field_id" 				=> $this->field_id,	
 			"field_name" 			=> $this->field_name,	
 			"theme_url" 			=> $this->_theme_url(),	
-			"gallery_files_limit" 	=> $this->settings['gallery_files_limit']?$this->settings['gallery_files_limit']:999,
-			"gallery_addon_fields"	=> $this->settings['gallery_addon_fields'],
+			"uploader_files_limit" 	=> $this->settings['uploader_files_limit']?$this->settings['uploader_files_limit']:999,
+			"uploader_addon_fields"	=> $this->settings['uploader_addon_fields'],
 			"field_content_type" 	=> $this->settings['field_content_type'],
 			"allowed_directories"	=> $this->settings['allowed_directories'],
 			"upload_url"			=> $prefs->url,
@@ -266,56 +266,56 @@ class Gallery_ft extends EE_Fieldtype {
 		
 		foreach ($this->EE->lang->language as $k=>$v)
 		{
-			$vars["gallery_label_add"] 				= ($this->settings['field_content_type']=='all')?$this->EE->lang->line("gallery_label_add_file"):$this->EE->lang->line("gallery_label_add_image");
-			$vars["gallery_label_start_upload"] 	= $this->EE->lang->line("gallery_label_start_upload");
-			$vars["gallery_label_cancel_upload"] 	= $this->EE->lang->line("gallery_label_cancel_upload");		
-			$vars["gallery_label_delete_files"] 	= $this->EE->lang->line("gallery_label_delete_files");	
+			$vars["uploader_label_add"] 				= ($this->settings['field_content_type']=='all')?$this->EE->lang->line("uploader_label_add_file"):$this->EE->lang->line("uploader_label_add_image");
+			$vars["uploader_label_start_upload"] 	= $this->EE->lang->line("uploader_label_start_upload");
+			$vars["uploader_label_cancel_upload"] 	= $this->EE->lang->line("uploader_label_cancel_upload");		
+			$vars["uploader_label_delete_files"] 	= $this->EE->lang->line("uploader_label_delete_files");	
 			
-			$vars["gallery_error_fileupload"] 	= $this->EE->lang->line("gallery_error_fileupload");
+			$vars["uploader_error_fileupload"] 	= $this->EE->lang->line("uploader_error_fileupload");
 			
-			$vars["gallery_error_fileupload_1"] 	= $this->EE->lang->line("gallery_error_fileupload_1");
-			$vars["gallery_error_fileupload_2"] 	= $this->EE->lang->line("gallery_error_fileupload_2");
-			$vars["gallery_error_fileupload_3"] 	= $this->EE->lang->line("gallery_error_fileupload_3");
-			$vars["gallery_error_fileupload_4"] 	= $this->EE->lang->line("gallery_error_fileupload_4");
-			$vars["gallery_error_fileupload_5"] 	= $this->EE->lang->line("gallery_error_fileupload_5");
-			$vars["gallery_error_fileupload_6"] 	= $this->EE->lang->line("gallery_error_fileupload_6");
-			$vars["gallery_error_fileupload_7"] 	= $this->EE->lang->line("gallery_error_fileupload_7");
-			$vars["gallery_error_fileupload_8"] 	= $this->EE->lang->line("gallery_error_fileupload_8");
-			$vars["gallery_error_fileupload_9"] 	= $this->EE->lang->line("gallery_error_fileupload_9");
-			$vars["gallery_error_fileupload_10"] 	= $this->EE->lang->line("gallery_error_fileupload_10");
-			$vars["gallery_error_fileupload_11"] 	= $this->EE->lang->line("gallery_error_fileupload_11");
-			$vars["gallery_error_fileupload_12"] 	= $this->EE->lang->line("gallery_error_fileupload_12");
-			$vars["gallery_error_fileupload_13"] 	= $this->EE->lang->line("gallery_error_fileupload_13");
-			$vars["gallery_error_fileupload_14"] 	= $this->EE->lang->line("gallery_error_fileupload_14");
-			$vars["gallery_error_fileupload_15"] 	= $this->EE->lang->line("gallery_error_fileupload_15");
-			$vars["gallery_error_fileupload_16"] 	= $this->EE->lang->line("gallery_error_fileupload_16");
-			$vars["gallery_error_fileupload_17"] 	= $this->EE->lang->line("gallery_error_fileupload_17");
+			$vars["uploader_error_fileupload_1"] 	= $this->EE->lang->line("uploader_error_fileupload_1");
+			$vars["uploader_error_fileupload_2"] 	= $this->EE->lang->line("uploader_error_fileupload_2");
+			$vars["uploader_error_fileupload_3"] 	= $this->EE->lang->line("uploader_error_fileupload_3");
+			$vars["uploader_error_fileupload_4"] 	= $this->EE->lang->line("uploader_error_fileupload_4");
+			$vars["uploader_error_fileupload_5"] 	= $this->EE->lang->line("uploader_error_fileupload_5");
+			$vars["uploader_error_fileupload_6"] 	= $this->EE->lang->line("uploader_error_fileupload_6");
+			$vars["uploader_error_fileupload_7"] 	= $this->EE->lang->line("uploader_error_fileupload_7");
+			$vars["uploader_error_fileupload_8"] 	= $this->EE->lang->line("uploader_error_fileupload_8");
+			$vars["uploader_error_fileupload_9"] 	= $this->EE->lang->line("uploader_error_fileupload_9");
+			$vars["uploader_error_fileupload_10"] 	= $this->EE->lang->line("uploader_error_fileupload_10");
+			$vars["uploader_error_fileupload_11"] 	= $this->EE->lang->line("uploader_error_fileupload_11");
+			$vars["uploader_error_fileupload_12"] 	= $this->EE->lang->line("uploader_error_fileupload_12");
+			$vars["uploader_error_fileupload_13"] 	= $this->EE->lang->line("uploader_error_fileupload_13");
+			$vars["uploader_error_fileupload_14"] 	= $this->EE->lang->line("uploader_error_fileupload_14");
+			$vars["uploader_error_fileupload_15"] 	= $this->EE->lang->line("uploader_error_fileupload_15");
+			$vars["uploader_error_fileupload_16"] 	= $this->EE->lang->line("uploader_error_fileupload_16");
+			$vars["uploader_error_fileupload_17"] 	= $this->EE->lang->line("uploader_error_fileupload_17");
 			
 			
 		
-			$vars["gallery_label_1"] = $this->settings['gallery_addon_field_1'];
-			$vars["gallery_label_2"] = $this->settings['gallery_addon_field_2']; 
-			$vars["gallery_label_3"] = $this->settings['gallery_addon_field_3']; 
-			$vars["gallery_label_4"] = $this->settings['gallery_addon_field_4']; 
-			$vars["gallery_label_5"] = $this->settings['gallery_addon_field_5']; 
+			$vars["uploader_label_1"] = $this->settings['uploader_addon_field_1'];
+			$vars["uploader_label_2"] = $this->settings['uploader_addon_field_2']; 
+			$vars["uploader_label_3"] = $this->settings['uploader_addon_field_3']; 
+			$vars["uploader_label_4"] = $this->settings['uploader_addon_field_4']; 
+			$vars["uploader_label_5"] = $this->settings['uploader_addon_field_5']; 
 			
-			if ($this->settings['gallery_addon_fields'] < 5) $vars["gallery_label_5_style"] = 'display:none'; else $vars["gallery_label_5_style"] = '';
-			if ($this->settings['gallery_addon_fields'] < 4) $vars["gallery_label_4_style"] = 'display:none'; else $vars["gallery_label_4_style"] = '';
-			if ($this->settings['gallery_addon_fields'] < 3) $vars["gallery_label_3_style"] = 'display:none'; else $vars["gallery_label_3_style"] = '';
-			if ($this->settings['gallery_addon_fields'] < 2) $vars["gallery_label_2_style"] = 'display:none'; else $vars["gallery_label_2_style"] = '';
-			if ($this->settings['gallery_addon_fields'] < 1) $vars["gallery_label_1_style"] = 'display:none'; else $vars["gallery_label_1_style"] = '';
+			if ($this->settings['uploader_addon_fields'] < 5) $vars["uploader_label_5_style"] = 'display:none'; else $vars["uploader_label_5_style"] = '';
+			if ($this->settings['uploader_addon_fields'] < 4) $vars["uploader_label_4_style"] = 'display:none'; else $vars["uploader_label_4_style"] = '';
+			if ($this->settings['uploader_addon_fields'] < 3) $vars["uploader_label_3_style"] = 'display:none'; else $vars["uploader_label_3_style"] = '';
+			if ($this->settings['uploader_addon_fields'] < 2) $vars["uploader_label_2_style"] = 'display:none'; else $vars["uploader_label_2_style"] = '';
+			if ($this->settings['uploader_addon_fields'] < 1) $vars["uploader_label_1_style"] = 'display:none'; else $vars["uploader_label_1_style"] = '';
 			
 		}
 		
 		$r = '<script type="text/javascript">'."\n";
 		$r .= '//<![CDATA['."\n";
-		$r .= 'if (typeof ft_gallery_upload_form_config == "undefined" || !(ft_gallery_upload_form_config instanceof Array)) {var ft_gallery_upload_form_config = new Array()}'."\n";
-		$r .= 'ft_gallery_upload_form_config["ft_gallery_upload_form_'.$this->field_id.'"] = '.json_encode($config).';'."\n";
+		$r .= 'if (typeof ft_uploader_upload_form_config == "undefined" || !(ft_uploader_upload_form_config instanceof Array)) {var ft_uploader_upload_form_config = new Array()}'."\n";
+		$r .= 'ft_uploader_upload_form_config["ft_uploader_upload_form_'.$this->field_id.'"] = '.json_encode($config).';'."\n";
 		$r .= "\n".'//]]>'."\n";
 		$r .= '</script>'."\n";
 				
 		
-		$r .= $this->view($this->EE->config->item('theme_folder_path').'third_party/gallery/views/display_fields.php', $vars);		
+		$r .= $this->view($this->EE->config->item('theme_folder_path').'third_party/uploader/views/display_fields.php', $vars);		
 		
 		
 		$this->_include_theme_js('scripts/fileupload.js');
@@ -372,11 +372,11 @@ class Gallery_ft extends EE_Fieldtype {
 			
 			$data[$k]['file_name'] = basename($data[$k]['file_path']);
 			
-			$data[$k]['label_name_1']	= $this->settings['gallery_addon_field_1'];
-			$data[$k]['label_name_2']	= $this->settings['gallery_addon_field_2'];
-			$data[$k]['label_name_3']	= $this->settings['gallery_addon_field_3'];
-			$data[$k]['label_name_4']	= $this->settings['gallery_addon_field_4'];
-			$data[$k]['label_name_5']	= $this->settings['gallery_addon_field_5'];
+			$data[$k]['label_name_1']	= $this->settings['uploader_addon_field_1'];
+			$data[$k]['label_name_2']	= $this->settings['uploader_addon_field_2'];
+			$data[$k]['label_name_3']	= $this->settings['uploader_addon_field_3'];
+			$data[$k]['label_name_4']	= $this->settings['uploader_addon_field_4'];
+			$data[$k]['label_name_5']	= $this->settings['uploader_addon_field_5'];
 			
 			$parts 						= explode('.', $data[$k]['file_name']);
 			$data[$k]['extension']		= $parts[ count($parts) - 1 ];
@@ -514,7 +514,7 @@ class Gallery_ft extends EE_Fieldtype {
 	{
 		//nacitaj jazyk
 		
-		$this->EE->lang->loadfile('gallery');
+		$this->EE->lang->loadfile('uploader');
 		
 		//odstran smajlikov, sposob pisania textu atd.
 					
@@ -524,11 +524,11 @@ class Gallery_ft extends EE_Fieldtype {
 		//	Typ suborov
 		//-------------------------------------------------------
 		
-		$gallery_content_options = array('all' => lang('all'), 'image' => lang('type_image'));
+		$uploader_content_options = array('all' => lang('all'), 'image' => lang('type_image'));
 
 		$this->EE->table->add_row(
-			lang('gallery_settings_content_file', 'field_content_file'),
-			form_dropdown('file_field_content_type', $gallery_content_options, $data['field_content_type'])
+			lang('uploader_settings_content_file', 'field_content_file'),
+			form_dropdown('file_field_content_type', $uploader_content_options, $data['field_content_type'])
 		);
 		
 		//------------------------------------------------------
@@ -547,7 +547,7 @@ class Gallery_ft extends EE_Fieldtype {
 		$allowed_directories = ( ! isset($data['allowed_directories'])) ? 'none' : $data['allowed_directories'];
 
 		$this->EE->table->add_row(
-			lang('gallery_settings_allowed_dirs_file', 'allowed_dirs_file'),
+			lang('uploader_settings_allowed_dirs_file', 'allowed_dirs_file'),
 			form_dropdown('file_allowed_directories', $directory_options, $allowed_directories, 'id="file_allowed_directories"')
 		);	
 		
@@ -556,8 +556,8 @@ class Gallery_ft extends EE_Fieldtype {
 		//------------------------------------------------------
 		
 		$this->EE->table->add_row(
-			lang('gallery_settings_files_limit', 'gallery_files_limit'),
-			form_input('gallery_files_limit', (int)@$data['gallery_files_limit'])
+			lang('uploader_settings_files_limit', 'uploader_files_limit'),
+			form_input('uploader_files_limit', (int)@$data['uploader_files_limit'])
 		);
 		
 		//------------------------------------------------------
@@ -565,17 +565,17 @@ class Gallery_ft extends EE_Fieldtype {
 		//------------------------------------------------------	
 		
 		$this->EE->table->add_row(
-			lang('gallery_settings_addon_fields', 'allowed_dirs_file'),
-			form_dropdown('gallery_addon_fields', array(0,1,2,3,4,5), (int)@$data['gallery_addon_fields'], 'id="gallery_addon_fields"')
+			lang('uploader_settings_addon_fields', 'allowed_dirs_file'),
+			form_dropdown('uploader_addon_fields', array(0,1,2,3,4,5), (int)@$data['uploader_addon_fields'], 'id="uploader_addon_fields"')
 		);		
 		
 		for ($i=1; $i<=5; $i++)
 		{
-			if (!isset($data['gallery_addon_field_'.$i]))	$data['gallery_addon_field_'.$i] = lang('gallery_settings_addon_field_'.$i.'_example');	
+			if (!isset($data['uploader_addon_field_'.$i]))	$data['uploader_addon_field_'.$i] = lang('uploader_settings_addon_field_'.$i.'_example');	
 		
 			$this->EE->table->add_row(
-				lang('gallery_addon_field_number').' '.$i,
-				form_input('gallery_addon_field_'.$i, htmlspecialchars($data['gallery_addon_field_'.$i]), ' class="gallery_addon_field"')
+				lang('uploader_addon_field_number').' '.$i,
+				form_input('uploader_addon_field_'.$i, htmlspecialchars($data['uploader_addon_field_'.$i]), ' class="uploader_addon_field"')
 			);
 		}	
 		
@@ -589,13 +589,13 @@ class Gallery_ft extends EE_Fieldtype {
 		return array(
 			'field_content_type'				=> $this->EE->input->post('file_field_content_type'),
 			'allowed_directories'				=> $this->EE->input->post('file_allowed_directories'),
-			'gallery_files_limit'				=> $this->EE->input->post('gallery_files_limit'),
-			'gallery_addon_field_1'				=> $this->EE->input->post('gallery_addon_field_1'),
-			'gallery_addon_field_2'				=> $this->EE->input->post('gallery_addon_field_2'),
-			'gallery_addon_field_3'				=> $this->EE->input->post('gallery_addon_field_3'),
-			'gallery_addon_field_4'				=> $this->EE->input->post('gallery_addon_field_4'),
-			'gallery_addon_field_5'				=> $this->EE->input->post('gallery_addon_field_5'),
-			'gallery_addon_fields'				=> $this->EE->input->post('gallery_addon_fields'),
+			'uploader_files_limit'				=> $this->EE->input->post('uploader_files_limit'),
+			'uploader_addon_field_1'				=> $this->EE->input->post('uploader_addon_field_1'),
+			'uploader_addon_field_2'				=> $this->EE->input->post('uploader_addon_field_2'),
+			'uploader_addon_field_3'				=> $this->EE->input->post('uploader_addon_field_3'),
+			'uploader_addon_field_4'				=> $this->EE->input->post('uploader_addon_field_4'),
+			'uploader_addon_field_5'				=> $this->EE->input->post('uploader_addon_field_5'),
+			'uploader_addon_fields'				=> $this->EE->input->post('uploader_addon_fields'),
 			'field_fmt' 						=> 'none'
 		);
 	}	
@@ -718,8 +718,8 @@ class Gallery_ft extends EE_Fieldtype {
 			$mark = '[['.md5(rand(0,1000).rand(0,1000).rand(0,1000).rand(0,1000)).']]';
 			$r = $this->_parse_variables($template, array($arr));
 			
-			if (!function_exists('ft_gallery_shuttdown')) {
-				function ft_gallery_shuttdown($marker, $html)
+			if (!function_exists('ft_uploader_shuttdown')) {
+				function ft_uploader_shuttdown($marker, $html)
 				{
 					$EE =& get_instance();
 				
@@ -738,7 +738,7 @@ class Gallery_ft extends EE_Fieldtype {
 			}
 			
 			ob_start();
-			register_shutdown_function('ft_gallery_shuttdown', $mark, $r);
+			register_shutdown_function('ft_uploader_shuttdown', $mark, $r);
 			
 			return $mark;
 		}
@@ -769,7 +769,7 @@ class Gallery_ft extends EE_Fieldtype {
 	{
 		//zisti id akcie pre nahravanie
 		
-		$aQuery = $this->EE->db->query("SELECT action_id FROM exp_actions WHERE class='Gallery_mcp' AND method='do_upload_file'");
+		$aQuery = $this->EE->db->query("SELECT action_id FROM exp_actions WHERE class='Uploader_mcp' AND method='do_upload_file'");
 		if ($aQuery->num_rows)
 		{
 			$action_id = $aQuery->row()->action_id;
@@ -786,7 +786,7 @@ class Gallery_ft extends EE_Fieldtype {
 	{
 		if (defined('BASE'))
 		{
-			return str_replace(AMP,'&',BASE).'&C=addons_modules&M=show_module_cp&module=gallery&method=do_upload_file';
+			return str_replace(AMP,'&',BASE).'&C=addons_modules&M=show_module_cp&module=uploader&method=do_upload_file';
 		}
 		else
 		{
