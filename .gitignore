@@ -18,6 +18,7 @@
 !/system/expressionengine/third_party/hyperlink/
 !/system/expressionengine/third_party/link/
 !/system/expressionengine/third_party/promotions/
+!/system/expressionengine/third_party/uploader/
 
 /themes/*
 !/themes/third_party/
@@ -29,3 +30,4 @@
 !/themes/third_party/hyperlink/
 !/themes/third_party/link/
 !/themes/third_party/promotions/
+!/themes/third_party/uploader/
