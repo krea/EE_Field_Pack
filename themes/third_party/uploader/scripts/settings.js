@@ -2,9 +2,9 @@ $(document).ready(function () {
 
 	function refresh_addon_fields()
 	{
-		var number_of_addon_fields = $('#gallery_addon_fields').val();
+		var number_of_addon_fields = $('#uploader_addon_fields').val();
 	
-		$('.gallery_addon_field').each(
+		$('.uploader_addon_field').each(
 			function (k,v)
 			{
 				if (k >= number_of_addon_fields)
@@ -19,7 +19,7 @@ $(document).ready(function () {
 		);
 	}
 	
-	$('#gallery_addon_fields').change(
+	$('#uploader_addon_fields').change(
 		function() {
 			refresh_addon_fields();
 		}

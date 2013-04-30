@@ -1,66 +1,66 @@
-.ft_gallery_upload_form .ui-widget {font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif !important; font-size: 12px !important; }
-.ft_gallery_upload_form .ui-button {border: 1px solid #B7BFC1 !important; margin-bottom: 0; margin-right: 2px; height: auto }
-.ft_gallery_upload_form .ui-button .ui-button-text {text-shadow: none !important; margin:0 !important}
+.ft_uploader_upload_form .ui-widget {font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif !important; font-size: 12px !important; }
+.ft_uploader_upload_form .ui-button {border: 1px solid #B7BFC1 !important; margin-bottom: 0; margin-right: 2px; height: auto }
+.ft_uploader_upload_form .ui-button .ui-button-text {text-shadow: none !important; margin:0 !important}
 
-.ft_gallery_upload_form .ui-button:active { background-color: none; background-position:0 -36px; box-shadow:inset 3px 3px 3px rgba(0,0,0,0.4); -moz-box-shadow:inset 3px 3px 3px rgba(0,0,0,0.4); -webkit-box-shadow:inset 3px 3px 3px rgba(0,0,0,0.4); }
+.ft_uploader_upload_form .ui-button:active { background-color: none; background-position:0 -36px; box-shadow:inset 3px 3px 3px rgba(0,0,0,0.4); -moz-box-shadow:inset 3px 3px 3px rgba(0,0,0,0.4); -webkit-box-shadow:inset 3px 3px 3px rgba(0,0,0,0.4); }
 
-.ft_gallery_upload_form .ui-widget-header {border: none}
-.ft_gallery_upload_form .fileupload-buttonbar {background: none; padding: 0;}
-.ft_gallery_upload_form .fileupload-content {border: none; padding: 0; background: none}
+.ft_uploader_upload_form .ui-widget-header {border: none}
+.ft_uploader_upload_form .fileupload-buttonbar {background: none; padding: 0;}
+.ft_uploader_upload_form .fileupload-content {border: none; padding: 0; background: none}
 
 
-.ft_gallery_upload_form .files {padding: 10px; border: none !important; width: 100%; background-color: white; margin-top: 10px; }
-.ft_gallery_upload_form .files tr td {border: none !important; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif !important; font-size: 12px; cursor: pointer; padding: 10px; }
-.ft_gallery_upload_form .files tr td .ui-button-icon-only {width: 30px !important; }
-.ft_gallery_upload_form .files tr td.delete,
-.ft_gallery_upload_form .files tr td.cancel {text-align:right; }
-.ft_gallery_upload_form .files tr td.name a {word-wrap:break-word; display: block; width: 175px; overflow: hidden;}
+.ft_uploader_upload_form .files {padding: 10px; border: none !important; width: 100%; background-color: white; margin-top: 10px; }
+.ft_uploader_upload_form .files tr td {border: none !important; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif !important; font-size: 12px; cursor: pointer; padding: 10px; }
+.ft_uploader_upload_form .files tr td .ui-button-icon-only {width: 30px !important; }
+.ft_uploader_upload_form .files tr td.delete,
+.ft_uploader_upload_form .files tr td.cancel {text-align:right; }
+.ft_uploader_upload_form .files tr td.name a {word-wrap:break-word; display: block; width: 175px; overflow: hidden;}
 
-/*.ft_gallery_upload_form .files tr td span.attchIcn {background: url(/themes/third_party/gallery/images/ui-icons_888888_256x240.png) -125px -144px}*/
+/*.ft_uploader_upload_form .files tr td span.attchIcn {background: url(/themes/third_party/uploader/images/ui-icons_888888_256x240.png) -125px -144px}*/
 
-.ft_gallery_upload_form .files tr.ui-state-error,
-.ft_gallery_upload_form .files tr.ui-state-error td {color:red !important; border: none; background: none}
+.ft_uploader_upload_form .files tr.ui-state-error,
+.ft_uploader_upload_form .files tr.ui-state-error td {color:red !important; border: none; background: none}
 
-.ft_gallery_upload_form .ui-progressbar {height: 15px !important; display:none !important}
-.ft_gallery_upload_form .files .ui-progressbar {height: 15px !important; width: 100px; display:block !important}
-.ft_gallery_upload_form label.fileinput-button {display: inline-block; line-height: 100% !important; padding:0}
+.ft_uploader_upload_form .ui-progressbar {height: 15px !important; display:none !important}
+.ft_uploader_upload_form .files .ui-progressbar {height: 15px !important; width: 100px; display:block !important}
+.ft_uploader_upload_form label.fileinput-button {display: inline-block; line-height: 100% !important; padding:0}
 
 /* Interaction states
 ----------------------------------*/
-.ft_gallery_upload_form .ui-state-default,
-.ft_gallery_upload_form .ui-widget-content .ui-state-default,
-.ft_gallery_upload_form .ui-widget-header .ui-state-default { border: 1px solid #d3d3d3; background: #e6e6e6 url(/themes/third_party/gallery/images/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x; font-weight: normal; color: #555555; }
+.ft_uploader_upload_form .ui-state-default,
+.ft_uploader_upload_form .ui-widget-content .ui-state-default,
+.ft_uploader_upload_form .ui-widget-header .ui-state-default { border: 1px solid #d3d3d3; background: #e6e6e6 url(/themes/third_party/uploader/images/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x; font-weight: normal; color: #555555; }
 
-.ft_gallery_upload_form .ui-state-default a,
-.ft_gallery_upload_form .ui-state-default a:link,
-.ft_gallery_upload_form .ui-state-default a:visited { color: #555555; text-decoration: none; }
+.ft_uploader_upload_form .ui-state-default a,
+.ft_uploader_upload_form .ui-state-default a:link,
+.ft_uploader_upload_form .ui-state-default a:visited { color: #555555; text-decoration: none; }
 
-.ft_gallery_upload_form .ui-state-hover,
-.ft_gallery_upload_form .ui-widget-content .ui-state-hover,
-.ft_gallery_upload_form .ui-widget-header .ui-state-hover,
-.ft_gallery_upload_form .ui-state-focus,
-.ft_gallery_upload_form .ui-widget-content .ui-state-focus,
-.ft_gallery_upload_form .ui-widget-header .ui-state-focus { border: 1px solid #999999; background: #dadada url(/themes/third_party/gallery/images/ui-bg_glass_75_dadada_1x400.png) 50% 50% repeat-x; font-weight: normal; color: #212121; }
+.ft_uploader_upload_form .ui-state-hover,
+.ft_uploader_upload_form .ui-widget-content .ui-state-hover,
+.ft_uploader_upload_form .ui-widget-header .ui-state-hover,
+.ft_uploader_upload_form .ui-state-focus,
+.ft_uploader_upload_form .ui-widget-content .ui-state-focus,
+.ft_uploader_upload_form .ui-widget-header .ui-state-focus { border: 1px solid #999999; background: #dadada url(/themes/third_party/uploader/images/ui-bg_glass_75_dadada_1x400.png) 50% 50% repeat-x; font-weight: normal; color: #212121; }
     
-.ft_gallery_upload_form .ui-state-hover a,
-.ft_gallery_upload_form .ui-state-hover a:hover { color: #212121; text-decoration: none; }
-.ft_gallery_upload_form .ui-state-active,
-.ft_gallery_upload_form .ui-widget-content .ui-state-active,
-.ft_gallery_upload_form .ui-widget-header .ui-state-active { border: 1px solid #aaaaaa; background: #ffffff url(/themes/third_party/gallery/images/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x; font-weight: normal; color: #212121; }
+.ft_uploader_upload_form .ui-state-hover a,
+.ft_uploader_upload_form .ui-state-hover a:hover { color: #212121; text-decoration: none; }
+.ft_uploader_upload_form .ui-state-active,
+.ft_uploader_upload_form .ui-widget-content .ui-state-active,
+.ft_uploader_upload_form .ui-widget-header .ui-state-active { border: 1px solid #aaaaaa; background: #ffffff url(/themes/third_party/uploader/images/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x; font-weight: normal; color: #212121; }
 
-.ft_gallery_upload_form .ui-state-active a,
-.ft_gallery_upload_form .ui-state-active a:link,
-.ft_gallery_upload_form .ui-state-active a:visited { color: #212121; text-decoration: none; }
+.ft_uploader_upload_form .ui-state-active a,
+.ft_uploader_upload_form .ui-state-active a:link,
+.ft_uploader_upload_form .ui-state-active a:visited { color: #212121; text-decoration: none; }
 
 
 /* states and images */
-.ft_gallery_upload_form .ui-icon { width: 16px; height: 16px; background-image: url(/themes/third_party/gallery/images/ui-icons_222222_256x240.png); }
-.ft_gallery_upload_form .ui-widget-content .ui-icon {background-image: url(/themes/third_party/gallery/images/ui-icons_222222_256x240.png); }
-.ft_gallery_upload_form .ui-widget-header .ui-icon {background-image: url(/themes/third_party/gallery/images/ui-icons_222222_256x240.png); }
-.ft_gallery_upload_form .ui-state-default .ui-icon { background-image: url(/themes/third_party/gallery/images/ui-icons_888888_256x240.png); }
-.ft_gallery_upload_form .ui-state-hover .ui-icon,
-.ft_gallery_upload_form .ui-state-focus .ui-icon {background-image: url(/themes/third_party/gallery/images/ui-icons_454545_256x240.png); }
-.ft_gallery_upload_form .ui-state-active .ui-icon {background-image: url(/themes/third_party/gallery/images/ui-icons_454545_256x240.png); }
-.ft_gallery_upload_form .ui-state-highlight .ui-icon {background-image: url(/themes/third_party/gallery/images/ui-icons_2e83ff_256x240.png); }
-.ft_gallery_upload_form .ui-state-error .ui-icon,
-.ft_gallery_upload_form .ui-state-error-text .ui-icon {background-image: url(/themes/third_party/gallery/images/ui-icons_cd0a0a_256x240.png); }
+.ft_uploader_upload_form .ui-icon { width: 16px; height: 16px; background-image: url(/themes/third_party/uploader/images/ui-icons_222222_256x240.png); }
+.ft_uploader_upload_form .ui-widget-content .ui-icon {background-image: url(/themes/third_party/uploader/images/ui-icons_222222_256x240.png); }
+.ft_uploader_upload_form .ui-widget-header .ui-icon {background-image: url(/themes/third_party/uploader/images/ui-icons_222222_256x240.png); }
+.ft_uploader_upload_form .ui-state-default .ui-icon { background-image: url(/themes/third_party/uploader/images/ui-icons_888888_256x240.png); }
+.ft_uploader_upload_form .ui-state-hover .ui-icon,
+.ft_uploader_upload_form .ui-state-focus .ui-icon {background-image: url(/themes/third_party/uploader/images/ui-icons_454545_256x240.png); }
+.ft_uploader_upload_form .ui-state-active .ui-icon {background-image: url(/themes/third_party/uploader/images/ui-icons_454545_256x240.png); }
+.ft_uploader_upload_form .ui-state-highlight .ui-icon {background-image: url(/themes/third_party/uploader/images/ui-icons_2e83ff_256x240.png); }
+.ft_uploader_upload_form .ui-state-error .ui-icon,
+.ft_uploader_upload_form .ui-state-error-text .ui-icon {background-image: url(/themes/third_party/uploader/images/ui-icons_cd0a0a_256x240.png); }

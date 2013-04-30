@@ -226,7 +226,7 @@ class Uploader_ft extends EE_Fieldtype {
 		//css styles
 		
 		$this->_include_theme_css('styles/display_fields.css');
-		$this->_include_theme_css('styles/jquery-ui-1.8.16.custom');
+		$this->_include_theme_css('styles/jquery-ui-1.8.16.custom.css');
 		$this->_include_theme_css('styles/jquery.fileupload-ui.css');	
 		
 		if ($this->settings["allowed_directories"] == '' OR $this->settings["allowed_directories"] == 'none' OR $this->settings["allowed_directories"] == 'all')
