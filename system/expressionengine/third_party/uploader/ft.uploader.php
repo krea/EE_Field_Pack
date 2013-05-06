@@ -206,15 +206,14 @@ class Uploader_ft extends EE_Fieldtype {
 			return lang('uploader_error_no_directories_allowed');
 		}
 
-		//send config to HTML
-
+		// send config to HTML
 		$config = array(
 			"field_id" => $this->field_id,
 			"field_name" => $this->field_name,
 			"theme_url" => $this->_theme_url(),
 			"uploader_files_limit" => $this->settings['uploader_files_limit'] ? $this->settings['uploader_files_limit'] : 999,
 			"uploader_addon_fields" => $this->settings['uploader_addon_fields'],
-			"field_content_type" => $this->settings['field_content_type'],
+			"field_content_type" => empty($prefs->allowed_types) ? '*.-;' : ($prefs->allowed_types == 'all' ? 'all' : '*.jpg;*.jpeg;*.gif;*.png'),
 			"allowed_directories" => $this->settings['allowed_directories'],
 			"upload_url" => $prefs->url,
 			"max_size" => $prefs->max_size ? $prefs->max_size : '99999999',
@@ -222,7 +221,7 @@ class Uploader_ft extends EE_Fieldtype {
 			"max_width" => $prefs->max_height ? $prefs->max_height : '99999999',
 			"site_url" => $this->EE->config->config['site_url'],
 			"action" => $this->_fetch_action(),
-			"file_ext" => $this->settings['field_content_type'] == 'all' ? null : '*.jpg;*.jpeg;*.gif;*.png',
+			"file_ext" => empty($prefs->allowed_types) ? '*.-;' : ($prefs->allowed_types == 'all' ? 'all' : '*.jpg;*.jpeg;*.gif;*.png'),	
 			'session_id' => session_id(),
 			'xid' => $this->EE->functions->add_form_security_hash('{XID_HASH}'),
 		);
@@ -230,7 +229,7 @@ class Uploader_ft extends EE_Fieldtype {
 		$vars = $config;
 
 		foreach ($this->EE->lang->language as $k => $v) {
-			$vars["uploader_label_add"] = ($this->settings['field_content_type'] == 'all') ? $this->EE->lang->line("uploader_label_add_file") : $this->EE->lang->line("uploader_label_add_image");
+			$vars["uploader_label_add"] = ($prefs->allowed_types == 'all') ? $this->EE->lang->line("uploader_label_add_file") : $this->EE->lang->line("uploader_label_add_image");
 			$vars["uploader_label_start_upload"] = $this->EE->lang->line("uploader_label_start_upload");
 			$vars["uploader_label_cancel_upload"] = $this->EE->lang->line("uploader_label_cancel_upload");
 			$vars["uploader_label_delete_files"] = $this->EE->lang->line("uploader_label_delete_files");
@@ -528,22 +527,10 @@ class Uploader_ft extends EE_Fieldtype {
 		$settings = array();
 
 		// nacitaj jazyk
-
 		$this->EE->lang->loadfile('uploader');
 
 		// odstran smajlikov, sposob pisania textu atd.
-
 		$this->EE->load->model('file_upload_preferences_model');
-
-		//-------------------------------------------------------
-		//	Typ suborov
-		//-------------------------------------------------------
-		$uploader_content_options = array('all' => lang('all'), 'image' => lang('type_image'));
-
-		$settings[] = array(
-			lang('uploader_settings_content_file', 'field_content_file'),
-			form_dropdown('file_field_content_type', $uploader_content_options, !empty($data['field_content_type']) ? $data['field_content_type'] : NULL)
-		);
 
 		//------------------------------------------------------
 		//	Moznosti nahravania obrazkov
@@ -605,7 +592,7 @@ class Uploader_ft extends EE_Fieldtype {
 
 	function save_settings($data) {
 		return array(
-			'field_content_type' => $this->EE->input->post('file_field_content_type'),
+			//'field_content_type' => $this->EE->input->post('file_field_content_type'),
 			'allowed_directories' => $this->EE->input->post('file_allowed_directories'),
 			'uploader_files_limit' => $this->EE->input->post('uploader_files_limit'),
 			'uploader_addon_field_1' => $this->EE->input->post('uploader_addon_field_1'),

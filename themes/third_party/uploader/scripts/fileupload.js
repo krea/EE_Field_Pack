@@ -50,7 +50,6 @@ $('.ft_uploader_upload_form').each(
 		//'use strict';  
 	    	
 		// Initialize the jQuery File Upload widget:
-	    
 		if (ft_upload_config.field_content_type == 'all')
 		{
 			var ft_upload_pattern = /.+$/i ;
