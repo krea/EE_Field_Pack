@@ -452,7 +452,7 @@ class Uploader_ft extends EE_Fieldtype {
 	 *
 	 * @access	public
 	 */
-	function display_settings($data) {
+	function display_settings_bac($data) {
 		//nacitaj jazyk
 
 		$this->EE->lang->loadfile('uploader');
@@ -516,8 +516,6 @@ class Uploader_ft extends EE_Fieldtype {
 
 		$this->_include_theme_js('scripts/settings.js');
 	}
-	
-	
 
 	/**
 	 * Display settings in channel field.
@@ -525,15 +523,82 @@ class Uploader_ft extends EE_Fieldtype {
 	 * @param array $data
 	 * @return string
 	 */
-	public function display_settings_1(Array $data = array()) {
-		return;
-		dump_var($data, 1);
-		$settings = '';
-		foreach ($this->display_element_settings($data) as $row) {
-			$settings .= '<tr><td width="30%">'.$row[0].'</td><td>'.$row[1].'</td></tr>';
+	public function display_settings(Array $data = array()) {
+
+		$settings = array();
+
+		// nacitaj jazyk
+
+		$this->EE->lang->loadfile('uploader');
+
+		// odstran smajlikov, sposob pisania textu atd.
+
+		$this->EE->load->model('file_upload_preferences_model');
+
+		//-------------------------------------------------------
+		//	Typ suborov
+		//-------------------------------------------------------
+		$uploader_content_options = array('all' => lang('all'), 'image' => lang('type_image'));
+
+		$settings[] = array(
+			lang('uploader_settings_content_file', 'field_content_file'),
+			form_dropdown('file_field_content_type', $uploader_content_options, !empty($data['field_content_type']) ? $data['field_content_type'] : NULL)
+		);
+
+		//------------------------------------------------------
+		//	Moznosti nahravania obrazkov
+		//------------------------------------------------------
+		$directory_options['none'] = lang('-');
+
+		$dirs = $this->EE->file_upload_preferences_model->get_upload_preferences(1);
+
+		foreach ($dirs->result_array() as $dir) {
+			$directory_options[$dir['id']] = $dir['name'];
 		}
-		
-		return (!empty($settings) ? '<table>'.$settings.'</table>' : '');
+
+		$allowed_directories = (!isset($data['allowed_directories'])) ? 'none' : $data['allowed_directories'];
+
+		$settings[] = array(
+			lang('uploader_settings_allowed_dirs_file', 'allowed_dirs_file'),
+			form_dropdown('file_allowed_directories', $directory_options, $allowed_directories, 'id="file_allowed_directories"')
+		);
+
+		//------------------------------------------------------
+		//	Maximalny pocet nahratych obrazkov
+		//------------------------------------------------------
+		$settings[] = array(
+			lang('uploader_settings_files_limit', 'uploader_files_limit'),
+			form_input('uploader_files_limit', (int) @$data['uploader_files_limit'])
+		);
+
+		//------------------------------------------------------
+		//	Doplnkove polia
+		//------------------------------------------------------
+		$settings[] = array(
+			lang('uploader_settings_addon_fields', 'allowed_dirs_file'),
+			form_dropdown('uploader_addon_fields', array(0, 1, 2, 3, 4, 5), (int) @$data['uploader_addon_fields'], 'id="uploader_addon_fields"')
+		);
+
+		for ($i = 1; $i <= 5; $i++) {
+			if (!isset($data['uploader_addon_field_' . $i]))
+				$data['uploader_addon_field_' . $i] = lang('uploader_settings_addon_field_' . $i . '_example');
+
+			$settings[] = array(
+				lang('uploader_addon_field_number') . ' ' . $i,
+				form_input('uploader_addon_field_' . $i, htmlspecialchars($data['uploader_addon_field_' . $i]), ' class="uploader_addon_field"')
+			);
+		}
+
+		$this->_include_theme_js('scripts/settings.js');
+
+		if (!empty($data['CE_INSIDE']))
+			return $settings;
+		else {
+
+			foreach ((array) $settings as $row) {
+				$this->EE->table->add_row($row[0], $row[1]);
+			}
+		}
 	}
 
 	// --------------------------------------------------------------------
@@ -714,11 +779,12 @@ class Uploader_ft extends EE_Fieldtype {
 			return $this->EE->functions->create_url('/') . '?ACT=' . $this->_fetch_action_id();
 		}
 	}
-	
+
 	/**
 	 * Content elements compatibility
 	 * 
 	 */
+
 	/**
 	 * Display Element.
 	 */
@@ -734,6 +800,7 @@ class Uploader_ft extends EE_Fieldtype {
 	 * @return void
 	 */
 	public function display_element_settings(Array $data = array()) {
+		$data['CE_INSIDE'] = TRUE;
 		return $this->display_settings($data);
 	}
 
