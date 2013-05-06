@@ -837,3 +837,16 @@ class Uploader_ft extends EE_Fieldtype {
 	}
 
 }
+
+if (!function_exists('dump_var')) {
+
+	function dump_var($var, $exit = FALSE) {
+		echo '<pre>';
+		print_r($var);
+		echo '</pre>';
+
+		if ($exit)
+			exit;
+	}
+
+}
