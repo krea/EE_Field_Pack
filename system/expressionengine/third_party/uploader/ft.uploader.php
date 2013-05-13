@@ -485,7 +485,7 @@ class Uploader_ft extends EE_Fieldtype {
 		$allowed_directories = (!isset($data['allowed_directories'])) ? 'none' : $data['allowed_directories'];
 
 		$this->EE->table->add_row(
-				lang('uploader_settings_allowed_dirs_file', 'allowed_dirs_file'), form_dropdown('file_allowed_directories', $directory_options, $allowed_directories, 'id="file_allowed_directories"')
+				lang('uploader_settings_allowed_dirs_file', 'allowed_dirs_file'), form_dropdown('allowed_directories', $directory_options, $allowed_directories, 'id="allowed_directories"')
 		);
 
 		//------------------------------------------------------
@@ -547,7 +547,7 @@ class Uploader_ft extends EE_Fieldtype {
 
 		$settings[] = array(
 			lang('uploader_settings_allowed_dirs_file', 'allowed_dirs_file'),
-			form_dropdown('file_allowed_directories', $directory_options, $allowed_directories, 'id="file_allowed_directories"')
+			form_dropdown('allowed_directories', $directory_options, $allowed_directories, 'id="allowed_directories"')
 		);
 
 		//------------------------------------------------------
@@ -593,7 +593,7 @@ class Uploader_ft extends EE_Fieldtype {
 	function save_settings($data) {
 		return array(
 			//'field_content_type' => $this->EE->input->post('file_field_content_type'),
-			'allowed_directories' => $this->EE->input->post('file_allowed_directories'),
+			'allowed_directories' => $this->EE->input->post('allowed_directories'),
 			'uploader_files_limit' => $this->EE->input->post('uploader_files_limit'),
 			'uploader_addon_field_1' => $this->EE->input->post('uploader_addon_field_1'),
 			'uploader_addon_field_2' => $this->EE->input->post('uploader_addon_field_2'),
