@@ -134,9 +134,8 @@ class Uploader_ft extends EE_Fieldtype {
 	 */
 	function validate($data) {
 		global $uploader_STORAGE_SAVED;
-
-		//cache v session je vyprazdnena po kazdom requeste
-
+		
+		// cache v session je vyprazdnena po kazdom requeste		
 		if (!isset($uploader_STORAGE_SAVED[$_POST['entry_id']][$this->settings['field_id']])) {
 			$_SESSION['Ft_uploader']['cache'][$_POST['entry_id']][$this->settings['field_id']] = array();
 			$uploader_STORAGE_SAVED[$_POST['entry_id']][$this->settings['field_id']] = 1;
