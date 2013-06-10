@@ -58,7 +58,7 @@ Standalone field type usage:
 {exp:channel:entries channel="your_channel_name" limit="10"}
 	&lt;h2&gt;{title}&lt;/h2&gt;
 	{your_name_for_embed_video}
-		{output}
+		{output} or use YouTube video ID: {video_id}
 	{/your_name_for_embed_video}
 {/exp:channel:entries}
 </pre>
