@@ -2,7 +2,6 @@
 Modules and field types for ExpressionEngine by <a href="http://www.krea.com/ee">Krea.com</a>.
 
 <h2>List of add-on's</h2>
-- Content Elements
 - <a href="#embed-video---basic-usage">Embed video</a>
 - <a href="#files---basic-usage">Files</a>
 - Hyperlink
