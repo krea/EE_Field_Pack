@@ -1,13 +1,7 @@
-<h1>EE_addons 1.2</h1>
-Modules and field types for ExpressionEngine.
-
-<h2>Version changelog</h2>
-- <a href="http://gotolow.com/addons/low-variables">Low variables</a> compatibility
-- <a href="http://www.devdemon.com/updater/">Updater compatibility</a>
-- Fixed small bugs (PHP Notices...)
+<h1>EE_addons</h1>
+Modules and field types for ExpressionEngine by <a href="http://www.krea.com/ee">Krea.com</a>.
 
 <h2>List of add-on's</h2>
-- Content Elements
 - <a href="#embed-video---basic-usage">Embed video</a>
 - <a href="#files---basic-usage">Files</a>
 - Hyperlink
@@ -51,7 +45,7 @@ Content elements field type usage:
 	&lt;h2&gt;{title}&lt;/h2&gt;
 	{content_elements}
 		{embed_video}
-			{output}
+			{output} or use YouTube video ID: {video_id}
 		{/embed_video}
 	{/content_elements}
 {/exp:channel:entries}
@@ -63,7 +57,7 @@ Standalone field type usage:
 {exp:channel:entries channel="your_channel_name" limit="10"}
 	&lt;h2&gt;{title}&lt;/h2&gt;
 	{your_name_for_embed_video}
-		{output}
+		{output} or use YouTube video ID: {video_id}
 	{/your_name_for_embed_video}
 {/exp:channel:entries}
 </pre>

@@ -253,6 +253,7 @@ class Embed_Video_ft extends EE_Fieldtype {
 
 		$result = array();
 		$result['output'] = $output;
+		$result['video_id'] = !empty($data['embed_video_url']) ? $this->EE->{$this->addon_name . '_lib'}->get_video_id($data['embed_video_url']) : '';
 
 		if (!empty($this->element_name))
 			$result['element_name'] = $this->element_name;

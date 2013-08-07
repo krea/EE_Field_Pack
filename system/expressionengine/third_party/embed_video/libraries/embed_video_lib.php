@@ -73,6 +73,27 @@ class Embed_Video_Lib {
 		return 1;
 	}
 
+	public function get_video_id($url) {
+		
+		if(!$this->is_valid_link($url))
+			return FALSE;
+		
+		$parsed_url = parse_url($url);
+		$parsed_query = array();
+		
+		if (!empty($parsed_url['query']))
+			parse_str($parsed_url['query'], $parsed_query);
+		
+		if (!empty($parsed_query['v']))
+			return $parsed_query['v'];
+		
+		// Get video ID
+		$embed_id = '';
+		if (preg_match('/embed\/[a-zA-Z0-9]+/', $parsed_url['path'], $embed_id)) {
+			return str_replace('embed/', '', current($embed_id));
+		}
+	}
+
 	public function get_embed_url($url) {
 
 		$parsed_url = parse_url($url);

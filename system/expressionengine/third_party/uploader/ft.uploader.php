@@ -134,9 +134,8 @@ class Uploader_ft extends EE_Fieldtype {
 	 */
 	function validate($data) {
 		global $uploader_STORAGE_SAVED;
-
-		//cache v session je vyprazdnena po kazdom requeste
-
+		
+		// cache v session je vyprazdnena po kazdom requeste		
 		if (!isset($uploader_STORAGE_SAVED[$_POST['entry_id']][$this->settings['field_id']])) {
 			$_SESSION['Ft_uploader']['cache'][$_POST['entry_id']][$this->settings['field_id']] = array();
 			$uploader_STORAGE_SAVED[$_POST['entry_id']][$this->settings['field_id']] = 1;
@@ -221,7 +220,7 @@ class Uploader_ft extends EE_Fieldtype {
 			"max_width" => $prefs->max_height ? $prefs->max_height : '99999999',
 			"site_url" => $this->EE->config->config['site_url'],
 			"action" => $this->_fetch_action(),
-			"file_ext" => empty($prefs->allowed_types) ? '*.-;' : ($prefs->allowed_types == 'all' ? 'all' : '*.jpg;*.jpeg;*.gif;*.png'),	
+			"file_ext" => empty($prefs->allowed_types) ? '*.-;' : ($prefs->allowed_types == 'all' ? 'all' : '*.jpg;*.jpeg;*.gif;*.png'),
 			'session_id' => session_id(),
 			'xid' => $this->EE->functions->add_form_security_hash('{XID_HASH}'),
 		);
@@ -537,10 +536,17 @@ class Uploader_ft extends EE_Fieldtype {
 		//------------------------------------------------------
 		$directory_options['none'] = lang('-');
 
-		$dirs = $this->EE->file_upload_preferences_model->get_upload_preferences(1);
+		if (method_exists($this->EE->file_upload_preferences_model, 'file_upload_preferences_model')) {
 
-		foreach ($dirs->result_array() as $dir) {
-			$directory_options[$dir['id']] = $dir['name'];
+			$dirs = $this->EE->file_upload_preferences_model->file_upload_preferences_model(1);
+			foreach ($dirs->result_array() as $dir) {
+				$directory_options[$dir['id']] = $dir['name'];
+			}
+		} else {
+			$dirs = $this->EE->file_upload_preferences_model->get_file_upload_preferences();
+			foreach ($dirs as $dir) {
+				$directory_options[$dir['id']] = $dir['name'];
+			}
 		}
 
 		$allowed_directories = (!isset($data['allowed_directories'])) ? 'none' : $data['allowed_directories'];
