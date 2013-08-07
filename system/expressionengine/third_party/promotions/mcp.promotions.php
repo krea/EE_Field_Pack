@@ -174,7 +174,7 @@ class Promotions_mcp {
 	 * @access public
 	 */
 	public function _theme_url() {
-		$this->cache['theme_url'] = define_theme_url();
+		$this->cache['theme_url'] = $this->define_theme_url();
 		return $this->cache['theme_url'];
 	}
 
