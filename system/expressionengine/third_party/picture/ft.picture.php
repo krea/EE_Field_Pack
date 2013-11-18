@@ -4,18 +4,20 @@ if (!defined('BASEPATH'))
 	exit('No direct script access allowed');
 
 /**
- * Content_elements_ft fieldtype Class - by KREA SK s.r.o.
+ * Picture_ft fieldtype Class - by KREA SK s.r.o.
  *
- * @package		Content_elements
+ * @package		Picture
+ * @required	EE 2.2.0+ 
  * @author		KREA SK s.r.o.
- * @copyright	Copyright (c) 2012, KREA SK s.r.o.
+ * @copyright	Copyright (c) 2013, KREA SK s.r.o.
  * @link		http://www.krea.com/docs/content-elements
  * @since		Version 1.0
  */
-class Files_ft extends EE_Fieldtype {
+ 
+class Picture_ft extends EE_Fieldtype {
 
 	public $info = array(
-		'name' => 'Files',
+		'name' => 'Picture',
 		'version' => '1.0'
 	);
 	
@@ -31,7 +33,7 @@ class Files_ft extends EE_Fieldtype {
 	 *
 	 * @return void
 	 */
-	function Files_ft() {
+	function Picture_ft() {
 		parent::__construct();
 
 		// Create addon_name from class name
@@ -47,7 +49,7 @@ class Files_ft extends EE_Fieldtype {
 	 * @return void
 	 */
 	function __construct() {
-		return $this->Files_ft();
+		return $this->Picture_ft();
 	}
 
 	/**
@@ -60,28 +62,16 @@ class Files_ft extends EE_Fieldtype {
 	function display_field($data, $advanced = FALSE) {
 		//first time... load css & js	
 		$theme_url = $this->_theme_url();
-
-		//diferent EE version has different trigger for upload files
-		if (version_compare(APP_VER, '2.2.0', '>=')) {
-			$this->EE->cp->add_to_head('<script type="text/javascript">var files_add_file_trigger_version = 2;</script>');
-		} else {
-			$this->EE->cp->add_to_head('<script type="text/javascript">var files_add_file_trigger_version = 1;</script>');
-		}
-
+		
 		//add styles to head			
 		$this->EE->cp->add_to_head('<link rel="stylesheet" href="' . $theme_url . 'styles.css" type="text/css" media="screen" />');
 
 		//add scripts to foot			
-		$this->EE->cp->add_to_foot('<script type="text/javascript" src="' . $theme_url . 'files.js"></script>');
+		$this->EE->cp->add_to_foot('<script type="text/javascript" src="' . $theme_url . 'publish.js"></script>');
 
 		//if call with element_name
 		if ($advanced == 'content_elements') {
 			$this->EE->cp->add_to_foot('<script type="text/javascript" src="' . $theme_url . 'publish_ce.js"></script>');
-		}
-
-		//if call with element_name
-		if ($advanced == 'matrix') {
-			$this->EE->cp->add_to_foot('<script type="text/javascript" src="' . $theme_url . 'publish_matrix.js"></script>');
 		}
 
 		if (!$data) {
@@ -90,18 +80,20 @@ class Files_ft extends EE_Fieldtype {
 			#	NEW ENTRY
 			#
 			#######################
-
-			if ($advanced == 'content_elements') {
-				//has been preparsed in "publish_ce.js" javascript, when element will be created
-				$files_id = '__files_index__';
-			} else if ($advanced == 'matrix') {
-				//has been preparsed in "publish_matrix.js" javascript, when element will be created
-				$files_id = '__files_index__';
-			} else {
-				//random value
-				$files_id = md5(uniqid() . rand(1, 99999));
+			$picture_id = md5(uniqid() . rand(1, 9999999));
+			
+			if ($advanced == "content_elements")
+			{
+				$picture_id = "__picture_index__";
 			}
-			$files = array();
+			
+			$picture_image = '';
+			$picture_upload_dir = '';			
+			$picture_alignment = '';
+			$picture_size = '';			
+			$picture_url = '';	
+			$picture_thumb = '';	
+			$picture_description = '';		
 		} else {
 			#######################
 			#
@@ -114,53 +106,89 @@ class Files_ft extends EE_Fieldtype {
 			}
 			$data = unserialize(html_entity_decode($data));
 
-			//fetch vars
-			$files_id = $data["files_id"];
-			$files = array();
-
-			//if files saved
-			if (isset($data["files"]["dir"])) {
-				//loop files
-				foreach ($data["files"]["dir"] as $file_id => $dir_id) {
-					//only if directory is valid
-					if ($data["files"]["dir"][$file_id]) {
-						//load thumb					
-						if (version_compare(APP_VER, '2.2.0', '<')) {
-							$upload_directory_data = $this->EE->db->query("SELECT * FROM exp_upload_prefs WHERE id='" . (int) $data["files"]["dir"][$file_id] . "'");
-							$upload_directory_server_path = $upload_directory_data->row('server_path');
-							$upload_directory_url = $upload_directory_data->row('url');
-
-							if (file_exists($upload_directory_server_path . '_thumbs/thumb_' . $data["files"]["name"][$file_id])) {
-								$thumb = $upload_directory_url . '_thumbs/thumb_' . $data["files"]["name"][$file_id];
-							} else {
-								$thumb = PATH_CP_GBL_IMG . 'default.png';
-							}
-						} else {
-							$this->EE->load->library('filemanager');
-							$thumb_info = $this->EE->filemanager->get_thumb($data["files"]["name"][$file_id], $data["files"]["dir"][$file_id]);
-							$thumb = $thumb_info['thumb'];
-						}
-
-						$files[] = array(
-							"dir" => $data["files"]["dir"][$file_id],
-							"name" => $data["files"]["name"][$file_id],
-							"caption" => $data["files"]["caption"][$file_id],
-							"thumb" => $thumb,
-						);
-					}
-				}
+			$picture_id = $data["picture_id"];
+			$picture_image = $data["image"];
+			$picture_upload_dir = $data["upload_dir"];			
+			$picture_alignment = $data["alignment"];
+			$picture_size = $data["size"];		
+			$picture_url = $data["url"];	
+			$picture_description = $data["description"];
+			$picture_thumb = '';
+		
+			if ($picture_image && $picture_upload_dir)
+			{
+				$this->EE->load->library('filemanager');
+				$thumb_info = $this->EE->filemanager->get_thumb($picture_image, $picture_upload_dir);
+				$picture_thumb = $thumb_info['thumb'];	
 			}
 		}
-
-		$vars = array(
-			"files" => $files,
+				
+		//load sizes
+		$default_sizes = array(
+			"" => $this->EE->lang->line("picture_size_label"),
+			"original" => $this->EE->lang->line("picture_size_original"),
+			"thumb" => $this->EE->lang->line("picture_size_thumb")
+		);
+		$current_sizes = $default_sizes;
+		
+		$sizes = array();		
+		$upload_prefs = array();
+		foreach ($this->_upload_prefs() as $pref)
+		{
+			if (!array_key_exists($pref->id, $sizes))
+			{
+				$sizes[$pref->id] = array();
+			}		
+			foreach ($default_sizes as $k=>$v) $sizes[$pref->id][] = array(
+				"id" => $k,
+				"value" => $v
+			);	
+		}	
+				
+		foreach ($this->EE->db->select("id, upload_location_id, title, width, height")->from("exp_file_dimensions")->get()->result() as $size)
+		{
+			if (!array_key_exists($size->upload_location_id, $sizes))
+			{
+				$sizes[$size->upload_location_id] = array();
+			}
+			$sizes[$size->upload_location_id][] = array(
+				"id"	=> $size->id,
+				"value" => htmlspecialchars($size->title).' ('.$size->width.'x'.$size->height.')'
+			);
+			
+			if ($picture_upload_dir == $size->upload_location_id)
+			{
+				$current_sizes[$size->id] = htmlspecialchars($size->title).' ('.$size->width.'x'.$size->height.')';
+			}
+		}	 		
+		
+		$this->EE->cp->add_to_foot('<script type="text/javascript">var picture_sizes = '.json_encode($sizes).'</script>');		
+		$this->EE->cp->add_to_foot('<script type="text/javascript">var picture_default_sizes = '.json_encode($default_sizes).'</script>');				
+				
+		//display vars
+		$vars = array(			
+			"settings" => $this->settings,								
+		
 			"field_name" => ($advanced == 'matrix') ? $this->cell_name : $this->field_name,
-			"files_id" => $files_id,
-			"files_limit" => !empty($this->settings['files_limit']) ? $this->settings['files_limit'] : NULL,
+			"picture_id" => $picture_id,
+			"picture_image" => $picture_image,
+			"picture_upload_dir" => $picture_upload_dir,
+			"picture_alignment" => $picture_alignment,
+			"picture_size" => $picture_size,			
+			"picture_url" => $picture_url,
+			"picture_description" => $picture_description,
+			"picture_thumb" => $picture_thumb,
+			"alignment_options" => array(
+				""			=> $this->EE->lang->line("picture_alignment_label"),
+				"left" 		=> $this->EE->lang->line("picture_alignment_left"),
+				"center" 	=> $this->EE->lang->line("picture_alignment_center"),				
+				"right" 	=> $this->EE->lang->line("picture_alignment_right"),								
+			),
+			"sizes_options" => $current_sizes,
 		);
 
 		$this->EE->load->add_package_path(dirname(__FILE__));
-		return $this->EE->load->view('files', $vars, TRUE);
+		return $this->EE->load->view('picture', $vars, TRUE);
 	}
 
 	/**
@@ -174,11 +202,18 @@ class Files_ft extends EE_Fieldtype {
 		if ($data == '') {
 			return TRUE;
 		}
-
+		
+		$picture = $_POST["picture"][$data];
+		
 		//files is required, but no file was submit...
-		if ($this->settings['field_required'] == 'y' && !isset($_POST["files"][$data])) {
+		if ($this->settings['field_required'] == 'y' && !@$picture["image"]) {
 			return $this->EE->lang->line('required');
 		}
+		
+		//files is required, but no file was submit...
+		if (!@$picture["image"] && (@$picture["description"] OR @$picture["url"])) {
+			return $this->EE->lang->line('error_empty_image');
+		}			
 
 		//success
 		return TRUE;
@@ -191,9 +226,17 @@ class Files_ft extends EE_Fieldtype {
 	 * @return string
 	 */
 	function save($data) {
+		
+		$picture_id = $data;
+	
 		$save_data = array(
-			"files_id" => $data,
-			"files" => $_POST["files"][$data]
+			"picture_id" => $data,
+			"upload_dir" => $_POST["picture"][$picture_id]["upload_dir"],
+			"image" => $_POST["picture"][$picture_id]["image"],
+			"description" => $_POST["picture"][$picture_id]["description"],					
+			"url" => $_POST["picture"][$picture_id]["url"],						
+			"size" => $_POST["picture"][$picture_id]["size"],							
+			"alignment" => $_POST["picture"][$picture_id]["alignment"],				
 		);
 
 		return serialize($save_data);
@@ -216,21 +259,43 @@ class Files_ft extends EE_Fieldtype {
 	}
 
 	/**
+	 * Get upload preferences
+	 *
+	 * @access private
+	 * @return array
+	 */
+	private function _upload_prefs()
+	{
+		$upload_prefs = $query = $this->EE->db->select("*")
+			->from("upload_prefs")
+			->where("site_id", $this->EE->config->item('site_id'))
+			->get()->result();
+			
+		return $upload_prefs;
+	}
+
+	/**
 	 * Display settings
 	 *
 	 * @param array
 	 * @return void
 	 */
 	function display_settings($data) {
+	
+		$upload_prefs = array();
+		foreach ($this->_upload_prefs() as $pref)
+		{
+			$upload_prefs[$pref->id] = $pref->name;
+		}	
+		
+		$upload_dir = form_dropdown("picture_upload_dir", $upload_prefs, @$data["picture_upload_dir"]);
+		if (empty($upload_prefs))
+		{
+			$upload_dir = "<p class='notice'>".$this->EE->lang->line("error_no_upload_locations_available")."</p>".form_hidden('picture_upload_dir', '');
+		}
+	
 		$this->EE->table->add_row(
-				lang('files_limit', 'files_limit'), form_input(
-						array(
-							'id' => 'files_limit',
-							'name' => 'files_limit',
-							'size' => 4,
-							'value' => isset($data['files_limit']) ? $data['files_limit'] : '10',
-						)
-				)
+			lang('picture_upload_dir', 'picture_upload_dir'), $upload_dir
 		);
 	}
 
@@ -242,61 +307,8 @@ class Files_ft extends EE_Fieldtype {
 	 */
 	function save_settings($data) {
 		return array(
-			'files_limit' => (int) $this->EE->input->post('files_limit'),
+			'picture_upload_dir' => (int) $this->EE->input->post('picture_upload_dir'),
 		);
-	}
-
-#####################################################
-#----------------------------------------------------
-#	MATRIX FUNCTIONS
-#----------------------------------------------------
-#####################################################	
-
-	/**
-	 * Display Cell Settings
-	 *
-	 * @param array
-	 * @return array	
-	 */
-	function display_cell_settings($data) {
-		return array(
-			array(lang('files_limit'), form_input('files_limit', @$data['files_limit'], 'class="matrix-textarea"')),
-		);
-	}
-
-	/**
-	 * Display Cell
-	 *
-	 * @param string
-	 * @return HMTL	
-	 */
-	function display_cell($data) {
-		return $this->display_field($data, 'matrix');
-	}
-
-	/**
-	 * Validate Cell
-	 *
-	 * @param string
-	 * @return boolen/string 
-	 */
-	function validate_cell($data) {
-		// is this a required column?
-		if ($this->settings['col_required'] == 'y' && !isset($_POST["files"][$data])) {
-			return lang('col_required');
-		}
-
-		return TRUE;
-	}
-
-	/**
-	 * Save cell
-	 *
-	 * @param array
-	 * @return void
-	 */
-	function save_cell($data) {
-		return $this->save($data);
 	}
 
 #####################################################
@@ -319,17 +331,21 @@ class Files_ft extends EE_Fieldtype {
 	 * @return void
 	 */
 	function display_element_settings($data) {
+		$upload_prefs = array();
+		foreach ($this->_upload_prefs() as $pref)
+		{
+			$upload_prefs[$pref->id] = $pref->name;
+		}	
+		
+		$upload_dir = form_dropdown("picture_upload_dir", $upload_prefs, @$data["picture_upload_dir"]);
+		if (empty($upload_prefs))
+		{
+			$upload_dir = "<p class='notice'>".$this->EE->lang->line("error_no_upload_locations_available")."</p>".form_hidden('picture_upload_dir', '');
+		}
+	
 		return array(
 			array(
-				lang('files_limit', 'files_limit'),
-				form_input(
-						array(
-							'id' => 'files_limit',
-							'name' => 'files_limit',
-							'size' => 4,
-							'value' => isset($data['files_limit']) ? $data['files_limit'] : '10',
-						)
-				)
+				lang('picture_upload_dir', 'picture_upload_dir'), $upload_dir
 			)
 		);
 	}
@@ -351,8 +367,8 @@ class Files_ft extends EE_Fieldtype {
 	 * @return void
 	 */
 	function preview_element($data) {
-		$tagdata = file_get_contents(PATH_THIRD . 'files/views/preview.php');
-		return $this->replace_element_tag($data, array(), file_get_contents(PATH_THIRD . 'files/views/preview.php'));
+		$tagdata = file_get_contents(PATH_THIRD . 'picture/views/preview.php');
+		return $this->replace_element_tag($data, array(), file_get_contents(PATH_THIRD . 'picture/views/preview.php'));
 	}
 
 	/**
@@ -398,6 +414,16 @@ class Files_ft extends EE_Fieldtype {
 			}
 		}
 		$upload_preferences = self::$cache["upload_preferences"];
+		
+		//load file dimensions
+		if (empty(self::$cache["file_dimensions"])) {
+			$this->EE->db->from('file_dimensions');
+
+			foreach ($this->EE->db->get()->result_array() as $row) {
+				self::$cache["file_dimensions"][$row["id"]] = $row;
+			}
+		}
+		$file_dimensions = self::$cache["file_dimensions"];		
 
 		//validate input
 		if (!is_array(@unserialize($data))) {
@@ -405,105 +431,95 @@ class Files_ft extends EE_Fieldtype {
 		} else {
 			$data = unserialize($data);
 		}
-
+		
 		//no input			
-		if (!isset($data["files_id"])) {
+		if (!isset($data["picture_id"])) {
 			return false;
 		}
+		
+		$picture = array();
+		
+		//name
+		$picture["name"] = $data["image"];
+		
+		//extension		
+		$ext_parts = (explode(".", $picture["name"]));
+		$ext = (count($ext_parts) > 1) ? end($ext_parts) : '';
 
-		$files["file"] = array();
+		$picture["extension"] = str_replace('jpeg', 'jpg', strtolower($ext));		
 
-		//available sizes	
-		$sizes = array();
-		preg_match_all('%{file:(.*)}%', $tagdata, $matches);
-		if (isset($matches[0])) {
-			foreach ($matches[0] as $match_index => $match) {
-				$sizes[] = array(
-					"pattern" => $matches[0][$match_index],
-					"replacement" => $matches[1][$match_index],
-				);
+		if (isset($upload_preferences[$data["upload_dir"]])) {
+			$picture["dir"] = $upload_preferences[$data["upload_dir"]]["url"];
+			$picture["server_path"] = $upload_preferences[$data["upload_dir"]]["server_path"];
+			$picture["file"] = $picture["dir"] . $picture["name"];
+			$picture["url"] = $picture["dir"] . $picture["name"];
+
+			//get file size
+			if (strpos($tagdata, '{size}') !== FALSE) {
+
+				$picture["size"] = filesize($upload_preferences[$data["upload_dir"]]["server_path"] . $picture["name"]);
+
+				if ($picture["size"] > 1024 * 1024 * 1024) {
+					$picture["size"] = round($picture["size"] / (1024 * 1024 * 1024), 2) . 'GB';
+				}
+				if ($picture["size"] > 1024 * 1024) {
+					$picture["size"] = round($picture["size"] / (1024 * 1024), 2) . 'MB';
+				}
+				if ($picture["size"] > 1024) {
+					$picture["size"] = round($picture["size"] / 1024, 2) . 'kB';
+				} else {
+					$picture["size"] = $picture["size"] . 'B';
+				}
+			} else {
+				$picture["size"] = "0B";
 			}
+		} else {
+			$picture["dir"] = "";
+			$picture["server_path"] = "";
+			$picture["file"] = "";
+			$picture["size"] = "0B";
 		}
 
-		//each
+		$picture["alignment"] = $data["alignment"];
+		$picture["url"] = $data["url"];	
+		
+		$picture["alt"] = str_replace("\n", " ", $data["description"]);			
+		$picture["description"] = str_replace("\n", "<br />", $data["description"]);					
+		
+		if ($data["image"])
+		{
+			$this->EE->load->library('filemanager');
+			$thumb_info = $this->EE->filemanager->get_thumb($data["image"], $data["upload_dir"]);
+			$picture["thumb"] = $thumb_info['thumb'];
+		}
+		else
+		{
+			$picture["thumb"] = "";
+		}
+		
+		$picture["image:thumb"] = $picture['thumb'];
+		
+		foreach ($file_dimensions as $dimension)
+		{
+			$picture["image:".$dimension["short_name"]] = $picture["dir"] . "_" . $dimension["short_name"] . "/" . $picture["name"];
+		}		
+		
+		if ($data["size"] == "thumb")
+		{
+			$picture["image"] = $picture["thumb"];
+		}
+		elseif (array_key_exists($data["size"], $file_dimensions))
+		{
+			$picture["image"] = $picture["image:".$file_dimensions[$data["size"]]["short_name"]];
+		}
+		else
+		{
+			$picture["image"] = $picture["dir"] . $picture["name"];
+		}
+		
+		$picture["original"] = $picture["dir"] . $picture["name"];
 
-		if (isset($data["files"]["dir"]))
-			foreach ($data["files"]["dir"] as $file_id => $dir_id)
-				if ($data["files"]["dir"][$file_id]) {
-					$cell["name"] = $data["files"]["name"][$file_id];
-
-					//get file_ext
-
-					$ext_parts = (explode(".", $cell["name"]));
-					$ext = (count($ext_parts) > 1) ? end($ext_parts) : '';
-
-					$cell["extension"] = str_replace('jpeg', 'jpg', strtolower($ext));
-
-					//fetch preferences				
-
-					if (isset($upload_preferences[$data["files"]["dir"][$file_id]])) {
-						$cell["dir"] = $upload_preferences[$data["files"]["dir"][$file_id]]["url"];
-						$cell["server_path"] = $upload_preferences[$data["files"]["dir"][$file_id]]["server_path"];
-						$cell["file"] = $cell["dir"] . $cell["name"];
-						$cell["url"] = $cell["dir"] . $cell["name"];
-
-						//get file size
-
-						if (strpos($tagdata, '{size}') !== FALSE) {
-
-							$cell["size"] = filesize($upload_preferences[$data["files"]["dir"][$file_id]]["server_path"] . $cell["name"]);
-
-							if ($cell["size"] > 1024 * 1024 * 1024) {
-								$cell["size"] = round($cell["size"] / (1024 * 1024 * 1024), 2) . 'GB';
-							}
-							if ($cell["size"] > 1024 * 1024) {
-								$cell["size"] = round($cell["size"] / (1024 * 1024), 2) . 'MB';
-							}
-							if ($cell["size"] > 1024) {
-								$cell["size"] = round($cell["size"] / 1024, 2) . 'kB';
-							} else {
-								$cell["size"] = $cell["size"] . 'B';
-							}
-						} else {
-							$cell["size"] = "0B";
-						}
-					} else {
-						$cell["dir"] = "";
-						$cell["server_path"] = "";
-						$cell["file"] = "";
-						$cell["size"] = "0B";
-					}
-
-					$cell["caption"] = @$data["files"]["caption"][$file_id];
-
-					//support for multisizes
-
-					foreach ($sizes as $size) {
-						$cell[trim($size["pattern"], '{ }')] = $cell["dir"] . "_" . $size["replacement"] . "/" . $cell["name"];
-					}
-
-					//thumb			
-					if (version_compare(APP_VER, '2.2.0', '<')) {
-						if (file_exists($cell["server_path"] . '_thumbs/thumb_' . $cell["name"])) {
-							$thumb = $cell["dir"] . '_thumbs/thumb_' . $cell["name"];
-						} else {
-							$thumb = PATH_CP_GBL_IMG . 'default.png';
-						}
-					} else {
-						$this->EE->load->library('filemanager');
-						$thumb_info = $this->EE->filemanager->get_thumb($cell["name"], $data["files"]["dir"][$file_id]);
-						$thumb = $thumb_info['thumb'];
-					}
-
-
-					$cell["thumb"] = $thumb;
-
-					//append
-
-					$files["file"][] = $cell;
-				}
-
-		return $files;
+		return $picture;
 	}
 
 	/**
@@ -525,8 +541,8 @@ class Files_ft extends EE_Fieldtype {
 			$tagdata = $_tagdata;
 
 			/** ----------------------------------------
-			  /**  parse {switch} variable
-			  /** ---------------------------------------- */
+			/**  parse {switch} variable
+			/** ---------------------------------------- */
 			if (preg_match('#{(switch(.*?))}#s', $tagdata, $_match) == TRUE) {
 				$sparam = $this->EE->functions->assign_parameters($_match[1]);
 
@@ -542,8 +558,8 @@ class Files_ft extends EE_Fieldtype {
 			}
 
 			/** ----------------------------------------
-			  /**  Others tag
-			  /** ---------------------------------------- */
+			/**  Others tag
+			/** ---------------------------------------- */
 			if (is_array($list))
 				foreach ($list as $tag => $value) {
 					//if array ...
@@ -703,15 +719,15 @@ class Files_ft extends EE_Fieldtype {
 
 	public function define_theme_url($addon_name = 'content_elements') {
 
-		if (defined('FILES_THEME_URL'))
-			return FILES_THEME_URL;
+		if (defined('PICTURE_THEME_URL'))
+			return PICTURE_THEME_URL;
 
 		if (defined('URL_THIRD_THEMES') === TRUE) {
 			$theme_url = URL_THIRD_THEMES;
 		} else {
 			$theme_url = $this->EE->config->item('theme_folder_url') . 'third_party/';
 		}
-
+		
 		// Are we working on SSL?
 		if (isset($_SERVER['HTTP_REFERER']) == TRUE AND strpos($_SERVER['HTTP_REFERER'], 'https://') !== FALSE) {
 			$theme_url = str_replace('http://', 'https://', $theme_url);
@@ -720,15 +736,15 @@ class Files_ft extends EE_Fieldtype {
 		}
 
 		$theme_url = str_replace(array('https://', 'http://'), '//', $theme_url);
+		
+		define('PICTURE_THEME_URL', $theme_url . $addon_name . '/');
 
-		define('FILES_THEME_URL', $theme_url . $addon_name . '/');
-
-		return FILES_THEME_URL;
+		return PICTURE_THEME_URL;
 	}
 
 }
 
 // END Password_Ft class
 
-/* End of file ft.text.php */
-/* Location: ./system/expressionengine/third_party/files/ft.files.php */
+/* End of file ft.picture.php */
+/* Location: ./system/expressionengine/third_party/files/ft.picture.php */

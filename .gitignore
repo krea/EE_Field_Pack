@@ -15,6 +15,8 @@
 !/system/expressionengine/third_party/content_elements
 !/system/expressionengine/third_party/embed_video/
 !/system/expressionengine/third_party/files/
+!/system/expressionengine/third_party/picture/
+!/system/expressionengine/third_party/quote/
 !/system/expressionengine/third_party/hyperlink/
 !/system/expressionengine/third_party/link/
 !/system/expressionengine/third_party/promotions/
@@ -27,6 +29,8 @@
 !/themes/third_party/content_elements
 !/themes/third_party/embed_video/
 !/themes/third_party/files/
+!/themes/third_party/picture/
+!/themes/third_party/quote/
 !/themes/third_party/hyperlink/
 !/themes/third_party/link/
 !/themes/third_party/promotions/

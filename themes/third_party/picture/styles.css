@@ -1,0 +1,11 @@
+﻿.ft-picture table { width: 100% }
+.ft-picture table tr td { align: left; vertical-align: top; }
+.ft-picture-col-file { width: 93px; }
+.ft-picture-dt { padding: 0px 0px 10px 0 }
+.ft-picture-placeholder { display: block; width: 73px; height: 60px; background-color: #ffffff; border-radius: 3px 3px 3px 3px; border: 1px solid #d4dce3; position: relative; background-repeat: no-repeat; background-position: center; }
+.ft-picture-placeholder .ft-picture-remove { display: none; }
+.ft-picture-placeholder:hover .ft-picture-remove { display: block; position: absolute; top: 5px; right: 5px; width: 14px; height: 14px;	border-radius: 3px 3px 3px 3px;	background: #fff url(images/btn_delete.png) no-repeat center center; opacity:0.5; filter:alpha(opacity=50); cursor: pointer; }
+.ft-picture-add, .ft-picture-add { display: block; width: 55px; height: 60px; background: #d4dce3 url(images/button_bg.jpg) repeat-x center center; box-shadow: 0px 0px 2px #D2DBE3; border-radius: 3px 3px 3px 3px; text-decoration: none !important; color: #4A575F; padding: 0 10px; }
+.ft-picture-add:hover { background-image: none;	background-color: #D0D8E0; }
+.ft-picture-add span, .ft-picture-add:visited span, .ft-picture-add:link span { display: block; text-align: center; font-size: 11px; text-decoration: none; padding-top: 18px; }
+.ft-picture-add:hover span { color: black; }
