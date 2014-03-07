@@ -16,7 +16,7 @@ class Files_ft extends EE_Fieldtype {
 
 	public $info = array(
 		'name' => 'Files',
-		'version' => '1.0'
+		'version' => '1.1'
 	);
 	
 	// Parser Flag (preparse pairs?)

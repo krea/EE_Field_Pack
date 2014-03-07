@@ -88,6 +88,7 @@ function ft_files_live()
 		$(v).click(function() { 
 			$(v).parent().parent().parent('.ft_files_item').remove();
 			ft_files_live();
+			return false;
 		});
 	});	
 	

@@ -4,7 +4,7 @@
 	<div id="placeholder_<?= $files_id ?>" style="display:none">
 		<div class="ft_files_item">
 			<div class="ft_files_img_wrapper">
-				<a class="ft_files_img">
+				<a class="ft_files_img" href="#">
 					<div class="ft_files_img_remove"></div>
 				</a>
 			</div>
@@ -22,7 +22,7 @@
 		
 		<div class="ft_files_item">
 			<div class="ft_files_img_wrapper">
-				<a class="ft_files_img" style="background-image: url(<?= htmlspecialchars($file["thumb"]) ?>)">
+				<a class="ft_files_img" style="background-image: url(<?= htmlspecialchars($file["thumb"]) ?>)" href="#">
 					<div class="ft_files_img_remove"></div>
 				</a>
 			</div>
@@ -37,7 +37,7 @@
 		
 		<div class="ft_files_item_btn_add_wrapper">
 			<span class="files_limit js_hide"><?= $files_limit ?></span>
-			<a href="#" class="ft_files_btn_add">
+			<a href="#" class="ft_files_btn_add" href="#">
 				<span><?= lang('files_add'); ?></span>
 			</a>
 		</div>			
