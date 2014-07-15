@@ -423,7 +423,11 @@ class Picture_ft extends EE_Fieldtype {
 				self::$cache["file_dimensions"][$row["id"]] = $row;
 			}
 		}
-		$file_dimensions = self::$cache["file_dimensions"];
+		if (!empty(self::$cache["file_dimensions"])) {
+			$file_dimensions = self::$cache["file_dimensions"];
+		} else {
+			$file_dimensions = NULL;
+		}
 
 		//validate input
 		if (!is_array(@unserialize($data))) {
@@ -499,9 +503,11 @@ class Picture_ft extends EE_Fieldtype {
 
 		$picture["image:thumb"] = $picture['thumb'];
 
-		foreach ($file_dimensions as $dimension)
-		{
-			$picture["image:".$dimension["short_name"]] = $picture["dir"] . "_" . $dimension["short_name"] . "/" . $picture["name"];
+		if (is_array($file_dimensions)) {
+			foreach ($file_dimensions as $dimension)
+			{
+				$picture["image:".$dimension["short_name"]] = $picture["dir"] . "_" . $dimension["short_name"] . "/" . $picture["name"];
+			}
 		}
 
 		if ($data["size"] == "thumb")
@@ -509,7 +515,7 @@ class Picture_ft extends EE_Fieldtype {
 			$picture["image"] = $picture["thumb"];
 			$picture["image_size"] = "thumb";
 		}
-		elseif (array_key_exists($data["size"], $file_dimensions))
+		elseif ((!is_null($file_dimensions)) AND (array_key_exists($data["size"], $file_dimensions)))
 		{
 			$picture["image"] = $picture["image:".$file_dimensions[$data["size"]]["short_name"]];
 			$picture["image_size"] = "sized";
