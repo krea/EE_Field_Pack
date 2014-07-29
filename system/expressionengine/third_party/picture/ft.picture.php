@@ -88,7 +88,7 @@ class Picture_ft extends EE_Fieldtype {
 			}
 
 			$picture_image = '';
-			$picture_upload_dir = '';
+			$picture_upload_dir = $this->settings['picture_upload_dir'];
 			$picture_alignment = '';
 			$picture_size = '';
 			$picture_url = '';
