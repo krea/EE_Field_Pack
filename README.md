@@ -6,7 +6,8 @@ Modules and field types for ExpressionEngine by <a href="http://www.krea.com/ee"
 - <a href="#files---basic-usage">Files</a>
 - Hyperlink
 - Link
-- Promotions
+- Picture
+- Quote
 
 <h2 id="files">Files - basic usage</h2>
 <pre>
