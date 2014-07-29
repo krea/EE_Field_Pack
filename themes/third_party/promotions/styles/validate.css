@@ -1,0 +1,6 @@
+input.error, input.error:hover,
+textarea.error, textarea.error:hover,
+select.error, select.error:hover,
+.hlpDskPg input.error[type="text"], .hlpDskPg input.error[type="text"]:hover
+{border: 1px solid #D91350 !important; background-color: #FFEEEE !important}
+label.errorCheck {color: red}
