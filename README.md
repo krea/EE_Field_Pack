@@ -67,4 +67,5 @@ Standalone field type usage:
 <h3>Supported formats</h3>
 - Youtube URL: www.youtube.com/embed/xyz123456
 - Youtube URL: www.youtube.com/watch?v=xyz123456
+- Youtube URL: youtu.be/xyz123456
 - Flash file type: application/x-shockwave-flash
