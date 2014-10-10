@@ -7,10 +7,10 @@ if (!defined('BASEPATH'))
  * Embed video - by KREA SK s.r.o.
  *
  * @package		Embed video
- * @author		KREA SK s.r.o.
- * @copyright	Copyright (c) 2012, KREA SK s.r.o.
+ * @author		KREA SK s.r.o. with contributions from Nathan Pitman (Nine Four Ltd)
+ * @copyright	Copyright (c) 2014, KREA SK s.r.o.
  * @link		http://www.krea.com/docs/content-elements
- * @since		Version 1.2
+ * @since		Version 1.3
  */
 class Embed_Video_Lib {
 
@@ -25,7 +25,7 @@ class Embed_Video_Lib {
 
 	/**
 	 * Recursive html_entity_decode function.
-	 * 
+	 *
 	 * @param mixed $data
 	 * @return mixed $data
 	 */
@@ -44,7 +44,7 @@ class Embed_Video_Lib {
 
 	/**
 	 * Return whether url is valid embed link.
-	 * 
+	 *
 	 * @param string $url
 	 * @return int
 	 */
@@ -60,7 +60,7 @@ class Embed_Video_Lib {
 			$parsed_url['host'] = NULL;
 
 		// Youtube link
-		if (preg_match('/^(?:www\.)?youtube\.com/', $parsed_url['host'])) {
+		if ((preg_match('/^(?:www\.)?youtube\.com/', $parsed_url['host'])) OR (preg_match('/^(?:www\.)?youtu\.be/', $parsed_url['host']))) {
 
 			if (preg_match('/embed\/[a-zA-Z0-9]+/', $parsed_url['path']))
 				return 1;
@@ -74,19 +74,19 @@ class Embed_Video_Lib {
 	}
 
 	public function get_video_id($url) {
-		
+
 		if(!$this->is_valid_link($url))
 			return FALSE;
-		
+
 		$parsed_url = parse_url($url);
 		$parsed_query = array();
-		
+
 		if (!empty($parsed_url['query']))
 			parse_str($parsed_url['query'], $parsed_query);
-		
+
 		if (!empty($parsed_query['v']))
 			return $parsed_query['v'];
-		
+
 		// Get video ID
 		$embed_id = '';
 		if (preg_match('/embed\/[a-zA-Z0-9]+/', $parsed_url['path'], $embed_id)) {
@@ -121,14 +121,18 @@ class Embed_Video_Lib {
 			if (empty($id))
 				return 0;
 
-			return 'http://www.youtube.com/embed/' . $id;
+			return 'https://www.youtube.com/embed/' . $id;
+		} elseif (preg_match('/^(?:www\.)?youtu\.be/', $parsed_url['host'])) {
+			$id = $parsed_url['path'];
+			return 'https://www.youtube.com/embed/' . $id;
+
 		} else
 			return -1;
 	}
 
 	/**
 	 * Return array of files from $data.
-	 * 
+	 *
 	 * @param mixed $data
 	 * @return array
 	 */
@@ -142,7 +146,7 @@ class Embed_Video_Lib {
 			foreach ($data['files']['dir'] as $file_id => $dir_id) {
 				//only if directory is valid
 				if ($data['files']['dir'][$file_id]) {
-					//load thumb					
+					//load thumb
 					if (version_compare(APP_VER, '2.2.0', '<')) {
 						$upload_directory_data = $this->EE->db->query("SELECT * FROM exp_upload_prefs WHERE id='" . (int) $data['files']['dir'][$file_id] . "'");
 						$upload_directory_server_path = $upload_directory_data->row('server_path');
