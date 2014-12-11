@@ -18,7 +18,7 @@ function ft_files_live()
 					//fetch title
 					
 					if (typeof(a.name) !== 'undefined'){file_name = a.name;}
-					if (typeof(a.title) !== 'undefined'){file_name = a.title;}				
+					if (typeof(a.file_name) !== 'undefined'){file_name = a.file_name;}				
 				
 					//load placeholder
 					
@@ -54,7 +54,7 @@ function ft_files_live()
 					//fetch title
 					
 					if (typeof(a.name) !== 'undefined'){file_name = a.name;}
-					if (typeof(a.title) !== 'undefined'){file_name = a.title;}				
+					if (typeof(a.file_name) !== 'undefined'){file_name = a.file_name;}				
 				
 					//load placeholder
 					

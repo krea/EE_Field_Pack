@@ -7,20 +7,20 @@ if (!defined('BASEPATH'))
  * Picture_ft fieldtype Class - by KREA SK s.r.o.
  *
  * @package		Picture
- * @required	EE 2.2.0+ 
+ * @required	EE 2.2.0+
  * @author		KREA SK s.r.o.
  * @copyright	Copyright (c) 2013, KREA SK s.r.o.
  * @link		http://www.krea.com/docs/content-elements
  * @since		Version 1.0
  */
- 
+
 class Picture_ft extends EE_Fieldtype {
 
 	public $info = array(
 		'name' => 'Picture',
 		'version' => '1.0'
 	);
-	
+
 	// Parser Flag (preparse pairs?)
 	public $has_array_data = TRUE;
 	public static $cache = array(
@@ -39,7 +39,7 @@ class Picture_ft extends EE_Fieldtype {
 		// Create addon_name from class name
 		$this->addon_name = strtolower(substr(__CLASS__, 0, -3));
 
-		//fetch language		
+		//fetch language
 		$this->EE->lang->loadfile($this->addon_name);
 	}
 
@@ -60,13 +60,13 @@ class Picture_ft extends EE_Fieldtype {
 	 * @return void
 	 */
 	function display_field($data, $advanced = FALSE) {
-		//first time... load css & js	
+		//first time... load css & js
 		$theme_url = $this->_theme_url();
-		
-		//add styles to head			
+
+		//add styles to head
 		$this->EE->cp->add_to_head('<link rel="stylesheet" href="' . $theme_url . 'styles.css" type="text/css" media="screen" />');
 
-		//add scripts to foot			
+		//add scripts to foot
 		$this->EE->cp->add_to_foot('<script type="text/javascript" src="' . $theme_url . 'publish.js"></script>');
 
 		//if call with element_name
@@ -81,19 +81,19 @@ class Picture_ft extends EE_Fieldtype {
 			#
 			#######################
 			$picture_id = md5(uniqid() . rand(1, 9999999));
-			
+
 			if ($advanced == "content_elements")
 			{
 				$picture_id = "__picture_index__";
 			}
-			
+
 			$picture_image = '';
-			$picture_upload_dir = '';			
+			$picture_upload_dir = $this->settings['picture_upload_dir'];
 			$picture_alignment = '';
-			$picture_size = '';			
-			$picture_url = '';	
-			$picture_thumb = '';	
-			$picture_description = '';		
+			$picture_size = '';
+			$picture_url = '';
+			$picture_thumb = '';
+			$picture_description = '';
 		} else {
 			#######################
 			#
@@ -108,21 +108,21 @@ class Picture_ft extends EE_Fieldtype {
 
 			$picture_id = $data["picture_id"];
 			$picture_image = $data["image"];
-			$picture_upload_dir = $data["upload_dir"];			
+			$picture_upload_dir = $data["upload_dir"];
 			$picture_alignment = $data["alignment"];
-			$picture_size = $data["size"];		
-			$picture_url = $data["url"];	
+			$picture_size = $data["size"];
+			$picture_url = $data["url"];
 			$picture_description = $data["description"];
 			$picture_thumb = '';
-		
+
 			if ($picture_image && $picture_upload_dir)
 			{
 				$this->EE->load->library('filemanager');
 				$thumb_info = $this->EE->filemanager->get_thumb($picture_image, $picture_upload_dir);
-				$picture_thumb = $thumb_info['thumb'];	
+				$picture_thumb = $thumb_info['thumb'];
 			}
 		}
-				
+
 		//load sizes
 		$default_sizes = array(
 			"" => $this->EE->lang->line("picture_size_label"),
@@ -130,21 +130,21 @@ class Picture_ft extends EE_Fieldtype {
 			"thumb" => $this->EE->lang->line("picture_size_thumb")
 		);
 		$current_sizes = $default_sizes;
-		
-		$sizes = array();		
+
+		$sizes = array();
 		$upload_prefs = array();
 		foreach ($this->_upload_prefs() as $pref)
 		{
 			if (!array_key_exists($pref->id, $sizes))
 			{
 				$sizes[$pref->id] = array();
-			}		
+			}
 			foreach ($default_sizes as $k=>$v) $sizes[$pref->id][] = array(
 				"id" => $k,
 				"value" => $v
-			);	
-		}	
-				
+			);
+		}
+
 		foreach ($this->EE->db->select("id, upload_location_id, title, width, height")->from("exp_file_dimensions")->get()->result() as $size)
 		{
 			if (!array_key_exists($size->upload_location_id, $sizes))
@@ -155,34 +155,34 @@ class Picture_ft extends EE_Fieldtype {
 				"id"	=> $size->id,
 				"value" => htmlspecialchars($size->title).' ('.$size->width.'x'.$size->height.')'
 			);
-			
+
 			if ($picture_upload_dir == $size->upload_location_id)
 			{
 				$current_sizes[$size->id] = htmlspecialchars($size->title).' ('.$size->width.'x'.$size->height.')';
 			}
-		}	 		
-		
-		$this->EE->cp->add_to_foot('<script type="text/javascript">var picture_sizes = '.json_encode($sizes).'</script>');		
-		$this->EE->cp->add_to_foot('<script type="text/javascript">var picture_default_sizes = '.json_encode($default_sizes).'</script>');				
-				
+		}
+
+		$this->EE->cp->add_to_foot('<script type="text/javascript">var picture_sizes = '.json_encode($sizes).'</script>');
+		$this->EE->cp->add_to_foot('<script type="text/javascript">var picture_default_sizes = '.json_encode($default_sizes).'</script>');
+
 		//display vars
-		$vars = array(			
-			"settings" => $this->settings,								
-		
+		$vars = array(
+			"settings" => $this->settings,
+
 			"field_name" => ($advanced == 'matrix') ? $this->cell_name : $this->field_name,
 			"picture_id" => $picture_id,
 			"picture_image" => $picture_image,
 			"picture_upload_dir" => $picture_upload_dir,
 			"picture_alignment" => $picture_alignment,
-			"picture_size" => $picture_size,			
+			"picture_size" => $picture_size,
 			"picture_url" => $picture_url,
 			"picture_description" => $picture_description,
 			"picture_thumb" => $picture_thumb,
 			"alignment_options" => array(
 				""			=> $this->EE->lang->line("picture_alignment_label"),
 				"left" 		=> $this->EE->lang->line("picture_alignment_left"),
-				"center" 	=> $this->EE->lang->line("picture_alignment_center"),				
-				"right" 	=> $this->EE->lang->line("picture_alignment_right"),								
+				"center" 	=> $this->EE->lang->line("picture_alignment_center"),
+				"right" 	=> $this->EE->lang->line("picture_alignment_right"),
 			),
 			"sizes_options" => $current_sizes,
 		);
@@ -202,18 +202,18 @@ class Picture_ft extends EE_Fieldtype {
 		if ($data == '') {
 			return TRUE;
 		}
-		
+
 		$picture = $_POST["picture"][$data];
-		
+
 		//files is required, but no file was submit...
 		if ($this->settings['field_required'] == 'y' && !@$picture["image"]) {
 			return $this->EE->lang->line('required');
 		}
-		
+
 		//files is required, but no file was submit...
 		if (!@$picture["image"] && (@$picture["description"] OR @$picture["url"])) {
 			return $this->EE->lang->line('error_empty_image');
-		}			
+		}
 
 		//success
 		return TRUE;
@@ -226,17 +226,17 @@ class Picture_ft extends EE_Fieldtype {
 	 * @return string
 	 */
 	function save($data) {
-		
+
 		$picture_id = $data;
-	
+
 		$save_data = array(
 			"picture_id" => $data,
 			"upload_dir" => $_POST["picture"][$picture_id]["upload_dir"],
 			"image" => $_POST["picture"][$picture_id]["image"],
-			"description" => $_POST["picture"][$picture_id]["description"],					
-			"url" => $_POST["picture"][$picture_id]["url"],						
-			"size" => $_POST["picture"][$picture_id]["size"],							
-			"alignment" => $_POST["picture"][$picture_id]["alignment"],				
+			"description" => $_POST["picture"][$picture_id]["description"],
+			"url" => $_POST["picture"][$picture_id]["url"],
+			"size" => $_POST["picture"][$picture_id]["size"],
+			"alignment" => $_POST["picture"][$picture_id]["alignment"],
 		);
 
 		return serialize($save_data);
@@ -244,10 +244,10 @@ class Picture_ft extends EE_Fieldtype {
 
 	/**
 	 * Replace tag
-	 * 
+	 *
 	 * @param array/string Saved data
-	 * @param array Params 
-	 * @param string Tagdata 
+	 * @param array Params
+	 * @param string Tagdata
 	 * @return string Template
 	 */
 	function replace_tag($data, $params = array(), $tagdata) {
@@ -270,7 +270,7 @@ class Picture_ft extends EE_Fieldtype {
 			->from("upload_prefs")
 			->where("site_id", $this->EE->config->item('site_id'))
 			->get()->result();
-			
+
 		return $upload_prefs;
 	}
 
@@ -281,19 +281,19 @@ class Picture_ft extends EE_Fieldtype {
 	 * @return void
 	 */
 	function display_settings($data) {
-	
+
 		$upload_prefs = array();
 		foreach ($this->_upload_prefs() as $pref)
 		{
 			$upload_prefs[$pref->id] = $pref->name;
-		}	
-		
+		}
+
 		$upload_dir = form_dropdown("picture_upload_dir", $upload_prefs, @$data["picture_upload_dir"]);
 		if (empty($upload_prefs))
 		{
 			$upload_dir = "<p class='notice'>".$this->EE->lang->line("error_no_upload_locations_available")."</p>".form_hidden('picture_upload_dir', '');
 		}
-	
+
 		$this->EE->table->add_row(
 			lang('picture_upload_dir', 'picture_upload_dir'), $upload_dir
 		);
@@ -315,7 +315,7 @@ class Picture_ft extends EE_Fieldtype {
 #----------------------------------------------------
 #	CONTENT ELEMENT FUNCTIONS
 #----------------------------------------------------
-#####################################################	
+#####################################################
 
 	/**
 	 * Display Element
@@ -335,14 +335,14 @@ class Picture_ft extends EE_Fieldtype {
 		foreach ($this->_upload_prefs() as $pref)
 		{
 			$upload_prefs[$pref->id] = $pref->name;
-		}	
-		
+		}
+
 		$upload_dir = form_dropdown("picture_upload_dir", $upload_prefs, @$data["picture_upload_dir"]);
 		if (empty($upload_prefs))
 		{
 			$upload_dir = "<p class='notice'>".$this->EE->lang->line("error_no_upload_locations_available")."</p>".form_hidden('picture_upload_dir', '');
 		}
-	
+
 		return array(
 			array(
 				lang('picture_upload_dir', 'picture_upload_dir'), $upload_dir
@@ -376,14 +376,14 @@ class Picture_ft extends EE_Fieldtype {
 	 *
 	 * @param string
 	 * @param array
-	 * @param string   
+	 * @param string
 	 * @return void
 	 */
 	function replace_element_tag($data, $params = array(), $tagdata) {
 		//build output data
 		$data = $this->_prepare_tagdata($data, $tagdata);
 
-		//append element name	
+		//append element name
 		$data["element_name"] = $this->element_name;
 
 		return $this->_parse_variables($tagdata, array($data));
@@ -393,7 +393,7 @@ class Picture_ft extends EE_Fieldtype {
 #----------------------------------------------------
 #	TOOLS
 #----------------------------------------------------
-#####################################################		
+#####################################################
 
 	/**
 	 * Prepar(s)e tagdata
@@ -414,7 +414,7 @@ class Picture_ft extends EE_Fieldtype {
 			}
 		}
 		$upload_preferences = self::$cache["upload_preferences"];
-		
+
 		//load file dimensions
 		if (empty(self::$cache["file_dimensions"])) {
 			$this->EE->db->from('file_dimensions');
@@ -423,7 +423,11 @@ class Picture_ft extends EE_Fieldtype {
 				self::$cache["file_dimensions"][$row["id"]] = $row;
 			}
 		}
-		$file_dimensions = self::$cache["file_dimensions"];		
+		if (!empty(self::$cache["file_dimensions"])) {
+			$file_dimensions = self::$cache["file_dimensions"];
+		} else {
+			$file_dimensions = NULL;
+		}
 
 		//validate input
 		if (!is_array(@unserialize($data))) {
@@ -431,22 +435,22 @@ class Picture_ft extends EE_Fieldtype {
 		} else {
 			$data = unserialize($data);
 		}
-		
-		//no input			
+
+		//no input
 		if (!isset($data["picture_id"])) {
 			return false;
 		}
-		
+
 		$picture = array();
-		
+
 		//name
 		$picture["name"] = $data["image"];
-		
-		//extension		
+
+		//extension
 		$ext_parts = (explode(".", $picture["name"]));
 		$ext = (count($ext_parts) > 1) ? end($ext_parts) : '';
 
-		$picture["extension"] = str_replace('jpeg', 'jpg', strtolower($ext));		
+		$picture["extension"] = str_replace('jpeg', 'jpg', strtolower($ext));
 
 		if (isset($upload_preferences[$data["upload_dir"]])) {
 			$picture["dir"] = $upload_preferences[$data["upload_dir"]]["url"];
@@ -481,11 +485,11 @@ class Picture_ft extends EE_Fieldtype {
 		}
 
 		$picture["alignment"] = $data["alignment"];
-		$picture["url"] = $data["url"];	
-		
-		$picture["alt"] = str_replace("\n", " ", $data["description"]);			
-		$picture["description"] = str_replace("\n", "<br />", $data["description"]);					
-		
+		$picture["url"] = $data["url"];
+
+		$picture["alt"] = str_replace("\n", " ", $data["description"]);
+		$picture["description"] = str_replace("\n", "<br />", $data["description"]);
+
 		if ($data["image"])
 		{
 			$this->EE->load->library('filemanager');
@@ -496,27 +500,32 @@ class Picture_ft extends EE_Fieldtype {
 		{
 			$picture["thumb"] = "";
 		}
-		
+
 		$picture["image:thumb"] = $picture['thumb'];
-		
-		foreach ($file_dimensions as $dimension)
-		{
-			$picture["image:".$dimension["short_name"]] = $picture["dir"] . "_" . $dimension["short_name"] . "/" . $picture["name"];
-		}		
-		
+
+		if (is_array($file_dimensions)) {
+			foreach ($file_dimensions as $dimension)
+			{
+				$picture["image:".$dimension["short_name"]] = $picture["dir"] . "_" . $dimension["short_name"] . "/" . $picture["name"];
+			}
+		}
+
 		if ($data["size"] == "thumb")
 		{
 			$picture["image"] = $picture["thumb"];
+			$picture["image_size"] = "thumb";
 		}
-		elseif (array_key_exists($data["size"], $file_dimensions))
+		elseif ((!is_null($file_dimensions)) AND (array_key_exists($data["size"], $file_dimensions)))
 		{
 			$picture["image"] = $picture["image:".$file_dimensions[$data["size"]]["short_name"]];
+			$picture["image_size"] = "sized";
 		}
 		else
 		{
 			$picture["image"] = $picture["dir"] . $picture["name"];
+			$picture["image_size"] = "original";
 		}
-		
+
 		$picture["original"] = $picture["dir"] . $picture["name"];
 
 		return $picture;
@@ -532,7 +541,7 @@ class Picture_ft extends EE_Fieldtype {
 	 */
 	private function _parse_variables($_tagdata, $vars) {
 
-		$output = ''; //output	
+		$output = ''; //output
 		$count = 0; //counter
 
 		foreach ($vars as $list) {
@@ -620,7 +629,7 @@ class Picture_ft extends EE_Fieldtype {
 								$value = $new_value;
 							}
 
-							//recursive call	...		
+							//recursive call	...
 							$pattern = $this->_parse_variables($matches[2][$i], $value);
 
 							//... apply recursive data
@@ -709,7 +718,7 @@ class Picture_ft extends EE_Fieldtype {
 
 	/**
 	 * Tool: get theme url
-	 *  
+	 *
 	 * @access public
 	 */
 	public function _theme_url() {
@@ -727,7 +736,7 @@ class Picture_ft extends EE_Fieldtype {
 		} else {
 			$theme_url = $this->EE->config->item('theme_folder_url') . 'third_party/';
 		}
-		
+
 		// Are we working on SSL?
 		if (isset($_SERVER['HTTP_REFERER']) == TRUE AND strpos($_SERVER['HTTP_REFERER'], 'https://') !== FALSE) {
 			$theme_url = str_replace('http://', 'https://', $theme_url);
@@ -736,7 +745,7 @@ class Picture_ft extends EE_Fieldtype {
 		}
 
 		$theme_url = str_replace(array('https://', 'http://'), '//', $theme_url);
-		
+
 		define('PICTURE_THEME_URL', $theme_url . $addon_name . '/');
 
 		return PICTURE_THEME_URL;

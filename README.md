@@ -1,12 +1,13 @@
-<h1>EE_addons</h1>
-Modules and field types for ExpressionEngine by <a href="http://www.krea.com/ee">Krea.com</a>.
+<h1>EE_Field_Pack</h1>
+Field types for ExpressionEngine by <a href="http://www.krea.com/ee">Krea.com</a>.
 
-<h2>List of add-on's</h2>
+<h2>Included field types</h2>
 - <a href="#embed-video---basic-usage">Embed video</a>
 - <a href="#files---basic-usage">Files</a>
 - Hyperlink
 - Link
-- Promotions
+- Picture
+- Quote
 
 <h2 id="files">Files - basic usage</h2>
 <pre>
@@ -66,4 +67,5 @@ Standalone field type usage:
 <h3>Supported formats</h3>
 - Youtube URL: www.youtube.com/embed/xyz123456
 - Youtube URL: www.youtube.com/watch?v=xyz123456
+- Youtube URL: youtu.be/xyz123456
 - Flash file type: application/x-shockwave-flash
