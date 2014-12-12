@@ -10,14 +10,14 @@ if (!defined('BASEPATH'))
  * @author		KREA SK s.r.o.
  * @copyright	Copyright (c) 2012, KREA SK s.r.o.
  * @link		http://www.krea.com/docs/content-elements
- * @since		Version 1.2
+ * @since		Version 1.3
  */
 class Embed_Video_ft extends EE_Fieldtype {
 
 	public $has_array_data = TRUE;
 	public $info = array(
 		'name' => 'Embed video',
-		'version' => '1.2',
+		'version' => '1.3',
 	);
 
 	/**
