@@ -42,14 +42,15 @@ class Files_ft extends EE_Fieldtype {
 	}
 
 	/**
-	 * Constructor
+	 * no need to construct the class twice
 	 *
 	 * @return void
-	 */
 	function __construct() {
 		return $this->Files_ft();
 	}
-
+	 */
+	 
+	 
 	/**
 	 * Display field
 	 *
